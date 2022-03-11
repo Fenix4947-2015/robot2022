@@ -11,8 +11,8 @@ package frc.robot;
 public final class Constants {
 
     public static final class ControllerConstants {
-        public static final int DRIVER_PORT = 0;
-        public static final int HELPER_PORT = 1;
+        public static final int kDriverPort = 0;
+        public static final int kHelperPort = 1;
 
         public static final double kDeadband = 0.15;
     }

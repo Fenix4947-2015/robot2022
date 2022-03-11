@@ -7,11 +7,11 @@ import frc.robot.subsystems.DriveTrain;
 
 public class DriveArcade extends CommandBase {
 
-  private final DriveTrain _driveTrain;
+  private final DriveTrain m_dTrain;
 
   public DriveArcade(DriveTrain driveTrain) {
-    _driveTrain = driveTrain;
-    addRequirements(_driveTrain);
+    m_dTrain = driveTrain;
+    addRequirements(m_dTrain);
   }
 
   // Called just before this Command runs the first time
@@ -31,7 +31,7 @@ public class DriveArcade extends CommandBase {
     // System.out.println("Move value: " + moveValue);
     // System.out.println("Rotate value: " + rotateValue);
 
-    _driveTrain.driveArcadeMethod(-moveValue, rotateValue);
+    m_dTrain.driveArcadeMethod(-moveValue, rotateValue);
   }
 
   // Make this return true when this Command no longer needs to run execute()

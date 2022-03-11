@@ -15,17 +15,17 @@ import frc.robot.RobotMap;
 public class DriveTrain extends SubsystemBase {
 
   // main motion system
-  private final CANSparkMax leftMotor1 = new CANSparkMax(RobotMap.LEFT_MOTOR1_CAN_ID, MotorType.kBrushless);
-  private final CANSparkMax leftMotor2 = new CANSparkMax(RobotMap.LEFT_MOTOR2_CAN_ID, MotorType.kBrushless);
-  private final CANSparkMax rightMotor1 = new CANSparkMax(RobotMap.RIGHT_MOTOR1_CAN_ID, MotorType.kBrushless);
-  private final CANSparkMax rightMotor2 = new CANSparkMax(RobotMap.RIGHT_MOTOR2_CAN_ID, MotorType.kBrushless);
-  private final DifferentialDrive robotDrive = new DifferentialDrive(leftMotor1, rightMotor1);
+  private final CANSparkMax m_leftMotor1 = new CANSparkMax(RobotMap.kLeftMotor1CanId, MotorType.kBrushless);
+  private final CANSparkMax m_leftMotor2 = new CANSparkMax(RobotMap.kLeftMotor2CanId, MotorType.kBrushless);
+  private final CANSparkMax m_rightMotor1 = new CANSparkMax(RobotMap.kRightMotor1CanId, MotorType.kBrushless);
+  private final CANSparkMax m_rightMotor2 = new CANSparkMax(RobotMap.kRightMotor2CanId, MotorType.kBrushless);
+  private final DifferentialDrive m_robotDrive = new DifferentialDrive(m_leftMotor1, m_rightMotor1);
 
-  private final RelativeEncoder m_leftEncoder = leftMotor1.getEncoder();
-  private final RelativeEncoder m_rightEncoder = rightMotor1.getEncoder();
+  private final RelativeEncoder m_leftEncoder = m_leftMotor1.getEncoder();
+  private final RelativeEncoder m_rightEncoder = m_rightMotor1.getEncoder();
 
-  private final Solenoid shifterSolenoid = RobotMap.SHIFTER_SOLENOID_CHANNEL_ID != null
-      ? new Solenoid(PneumaticsModuleType.CTREPCM, RobotMap.SHIFTER_SOLENOID_CHANNEL_ID)
+  private final Solenoid m_shifterSolenoid = RobotMap.kShifterSolenoidChannelId != null
+      ? new Solenoid(PneumaticsModuleType.CTREPCM, RobotMap.kShifterSolenoidChannelId)
       : null;
 
   //private final Pigeon _pigeon;
@@ -46,20 +46,20 @@ public class DriveTrain extends SubsystemBase {
     // rightMotor2.set(ControlMode.Follower, rightMotor1.getDeviceID());
 
     // robotDrive.setSafetyEnabled(false);
-    leftMotor1.restoreFactoryDefaults();
-    leftMotor2.restoreFactoryDefaults();
+    m_leftMotor1.restoreFactoryDefaults();
+    m_leftMotor2.restoreFactoryDefaults();
 
-    rightMotor1.restoreFactoryDefaults();
-    rightMotor2.restoreFactoryDefaults();
+    m_rightMotor1.restoreFactoryDefaults();
+    m_rightMotor2.restoreFactoryDefaults();
 
-    leftMotor2.follow(leftMotor1);
-    leftMotor1.setInverted(true);
-    rightMotor2.follow(rightMotor1);
+    m_leftMotor2.follow(m_leftMotor1);
+    m_leftMotor1.setInverted(true);
+    m_rightMotor2.follow(m_rightMotor1);
 
-    leftMotor1.setIdleMode(IdleMode.kBrake);
-    leftMotor2.setIdleMode(IdleMode.kBrake);
-    rightMotor1.setIdleMode(IdleMode.kBrake);
-    rightMotor2.setIdleMode(IdleMode.kBrake);
+    m_leftMotor1.setIdleMode(IdleMode.kBrake);
+    m_leftMotor2.setIdleMode(IdleMode.kBrake);
+    m_rightMotor1.setIdleMode(IdleMode.kBrake);
+    m_rightMotor2.setIdleMode(IdleMode.kBrake);
 
     m_leftEncoder.setPositionConversionFactor(DriveTrainConstants.LEFT_ENCODER_DISTANCE_M_PER_TURN);
     // m_leftEncoder.setVelocityConversionFactor(DriveTrainConstants.ENCODER_VELOCITY_METER_PER_SECONDS);
@@ -82,22 +82,22 @@ public class DriveTrain extends SubsystemBase {
   }
   
   public void driveArcadeMethod(double speed, double rotation) {
-    robotDrive.arcadeDrive(speed, rotation);
+    m_robotDrive.arcadeDrive(speed, rotation);
   }
 
   public void stop() {
-    robotDrive.arcadeDrive(0.0, 0.0);
+    m_robotDrive.arcadeDrive(0.0, 0.0);
   }
 
   public void shiftHigh() {
-    if (shifterSolenoid != null) {
-      shifterSolenoid.set(true);
+    if (m_shifterSolenoid != null) {
+      m_shifterSolenoid.set(true);
     }
   }
 
   public void shiftLow() {
-    if (shifterSolenoid != null) {
-      shifterSolenoid.set(false);
+    if (m_shifterSolenoid != null) {
+      m_shifterSolenoid.set(false);
     }
   }
 
