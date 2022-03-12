@@ -19,7 +19,7 @@ public final class Constants {
         public static final double kDeadband = 0.15;
     }
 
-    public static final class DrivetrainConstants {
+    public static final class DriveTrainConstants {
         public static final int kLeftLeaderDeviceId = 40;
         public static final int kLeftFollowerDeviceId = 41;
 

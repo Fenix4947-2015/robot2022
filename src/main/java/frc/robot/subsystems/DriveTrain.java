@@ -10,16 +10,16 @@ import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants.DrivetrainConstants;
+import frc.robot.Constants.DriveTrainConstants;
 
 public class DriveTrain extends SubsystemBase {
 
-    private final CANSparkMax m_leftLeader = new CANSparkMax(DrivetrainConstants.kLeftLeaderDeviceId, MotorType.kBrushless);
-    private final CANSparkMax m_leftFollower = new CANSparkMax(DrivetrainConstants.kLeftFollowerDeviceId, MotorType.kBrushless);
-    private final CANSparkMax m_rightLeader = new CANSparkMax(DrivetrainConstants.kRightLeaderDeviceId, MotorType.kBrushless);
-    private final CANSparkMax m_rightFollower = new CANSparkMax(DrivetrainConstants.kRightFollowerDeviceId, MotorType.kBrushless);
+    private final CANSparkMax m_leftLeader = new CANSparkMax(DriveTrainConstants.kLeftLeaderDeviceId, MotorType.kBrushless);
+    private final CANSparkMax m_leftFollower = new CANSparkMax(DriveTrainConstants.kLeftFollowerDeviceId, MotorType.kBrushless);
+    private final CANSparkMax m_rightLeader = new CANSparkMax(DriveTrainConstants.kRightLeaderDeviceId, MotorType.kBrushless);
+    private final CANSparkMax m_rightFollower = new CANSparkMax(DriveTrainConstants.kRightFollowerDeviceId, MotorType.kBrushless);
 
-    private final Solenoid m_shifter = new Solenoid(PneumaticsModuleType.CTREPCM, DrivetrainConstants.kShifterSolenoidChannelId);
+    private final Solenoid m_shifter = new Solenoid(PneumaticsModuleType.CTREPCM, DriveTrainConstants.kShifterSolenoidChannelId);
 
     private final DifferentialDrive m_drive = new DifferentialDrive(m_leftLeader, m_rightLeader);
     private final RelativeEncoder m_leftLeaderEncoder = m_leftLeader.getEncoder();
@@ -42,11 +42,11 @@ public class DriveTrain extends SubsystemBase {
         m_leftFollower.follow(m_leftLeader);
         m_rightFollower.follow(m_rightLeader);
 
-        m_leftLeaderEncoder.setPositionConversionFactor(DrivetrainConstants.kEncoderPositionConversionFactor);
-        m_rightLeaderEncoder.setPositionConversionFactor(DrivetrainConstants.kEncoderPositionConversionFactor);
+        m_leftLeaderEncoder.setPositionConversionFactor(DriveTrainConstants.kEncoderPositionConversionFactor);
+        m_rightLeaderEncoder.setPositionConversionFactor(DriveTrainConstants.kEncoderPositionConversionFactor);
 
-        m_leftLeaderEncoder.setVelocityConversionFactor(DrivetrainConstants.kEncoderVelocityConversionFactor);
-        m_rightLeaderEncoder.setVelocityConversionFactor(DrivetrainConstants.kEncoderVelocityConversionFactor);
+        m_leftLeaderEncoder.setVelocityConversionFactor(DriveTrainConstants.kEncoderVelocityConversionFactor);
+        m_rightLeaderEncoder.setVelocityConversionFactor(DriveTrainConstants.kEncoderVelocityConversionFactor);
 
         shiftLow();
         reset();
