@@ -21,7 +21,7 @@ import frc.robot.Constants.ControllerConstants;
  *   - intermediate buttons are NOT supported (e.g. upper-left)
  *
  * Usage example:
- *   Frc4947Controller driverController = new Frc4947Controller(ControllerConstants.DRIVER_PORT);
+ *   Frc4947Controller driverController = new Frc4947Controller(ControllerConstants.kDriverPort);
  *   driverController.X.whenPressed(new PrintCommand("Driver pressed X"));
  */
 public class Frc4947Controller {
@@ -109,9 +109,5 @@ public class Frc4947Controller {
 
     public double getRightTriggerAxis() {
         return m_controller.getRightTriggerAxis();
-    }
-
-    public double getTriggerAxes() {
-        return getRightTriggerAxis() - getLeftTriggerAxis();
     }
 }
