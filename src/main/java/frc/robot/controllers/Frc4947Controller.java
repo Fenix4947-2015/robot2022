@@ -26,8 +26,6 @@ import frc.robot.Constants.ControllerConstants;
  */
 public class Frc4947Controller {
 
-    public static final Frc4947Controller DRIVER = new Frc4947Controller(0);
-
     public final JoystickButton A;
     public final JoystickButton B;
     public final JoystickButton X;

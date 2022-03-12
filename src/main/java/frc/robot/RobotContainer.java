@@ -1,12 +1,11 @@
 package frc.robot;
 
-import edu.wpi.first.wpilibj.GenericHID;
-import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
+import frc.robot.Constants.ControllerConstants;
 import frc.robot.commands.drivetrain.DriveArcade;
 import frc.robot.controllers.Frc4947Controller;
 import frc.robot.subsystems.DriveTrain;
-import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -15,36 +14,31 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
  * subsystems, commands, and button mappings) should be declared here.
  */
 public class RobotContainer {
-  // The robot's subsystems and commands are defined here...
-  private final DriveTrain m_dTrain = new DriveTrain();
 
-  private final DriveArcade m_driveArcade = new DriveArcade(m_dTrain);
+    // Contollers.
+    public final Frc4947Controller m_driverController = new Frc4947Controller(ControllerConstants.kDriverPort);
 
-  /** The container for the robot. Contains subsystems, OI devices, and commands. */
-  public RobotContainer() {
-    // Configure the button bindings
-    configureButtonBindings();
+    // Subsystems.
+    private final DriveTrain m_driveTrain = new DriveTrain();
 
-    m_dTrain.setDefaultCommand(m_driveArcade);
-    Frc4947Controller.DRIVER.X.whenPressed(new InstantCommand(m_dTrain::shiftHigh));
-    Frc4947Controller.DRIVER.A.whenPressed(new InstantCommand(m_dTrain::shiftLow));
-  }
+    // Default commands.
+    private final DriveArcade m_driveArcade = new DriveArcade(m_driverController, m_driveTrain);
 
-  /**
-   * Use this method to define your button->command mappings. Buttons can be created by
-   * instantiating a {@link GenericHID} or one of its subclasses ({@link
-   * edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then passing it to a {@link
-   * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
-   */
-  private void configureButtonBindings() {}
+    public RobotContainer() {
+        configureButtonBindings();
+        configureDefaultCommands();
+    }
 
-  /**
-   * Use this to pass the autonomous command to the main {@link Robot} class.
-   *
-   * @return the command to run in autonomous
-   */
-  public Command getAutonomousCommand() {
-    // An ExampleCommand will run in autonomous
-    return null;
-  }
+    private void configureButtonBindings() {
+        m_driverController.X.whenPressed(new InstantCommand(m_driveTrain::shiftHigh));
+        m_driverController.A.whenPressed(new InstantCommand(m_driveTrain::shiftLow));
+    }
+
+    private void configureDefaultCommands() {
+        m_driveTrain.setDefaultCommand(m_driveArcade);
+    }
+
+    public Command getAutonomousCommand() {
+        return null;
+    }
 }
