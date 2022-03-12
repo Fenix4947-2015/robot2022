@@ -2,6 +2,7 @@ package frc.robot.controllers;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj2.command.button.Button;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Constants.ControllerConstants;
@@ -110,4 +111,12 @@ public class Frc4947Controller {
     public double getRightTriggerAxis() {
         return m_controller.getRightTriggerAxis();
     }
+
+    public void setLeftRumble(double value) {
+        m_controller.setRumble(RumbleType.kLeftRumble, value);
+    }
+
+    public void setRightRumble(double value) {
+        m_controller.setRumble(RumbleType.kRightRumble, value);
+    }    
 }
