@@ -1,7 +1,6 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.Constants.ControllerConstants;
 import frc.robot.commands.drivetrain.DriveArcade;
 import frc.robot.controllers.Frc4947Controller;
@@ -30,8 +29,8 @@ public class RobotContainer {
     }
 
     private void configureButtonBindings() {
-        m_driverController.X.whenPressed(new InstantCommand(m_driveTrain::shiftHigh));
-        m_driverController.A.whenPressed(new InstantCommand(m_driveTrain::shiftLow));
+        m_driverController.A.whenPressed(m_driveTrain::shiftHigh);
+        m_driverController.X.whenPressed(m_driveTrain::shiftLow);
     }
 
     private void configureDefaultCommands() {
