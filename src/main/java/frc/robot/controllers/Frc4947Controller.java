@@ -27,45 +27,45 @@ import frc.robot.Constants.ControllerConstants;
  */
 public class Frc4947Controller {
 
-    public final JoystickButton A;
-    public final JoystickButton B;
-    public final JoystickButton X;
-    public final JoystickButton Y;
-    public final JoystickButton leftBumper;
-    public final JoystickButton leftStick;
-    public final JoystickButton rightBumper;
-    public final JoystickButton rightStick;
-    public final JoystickButton back;
-    public final JoystickButton start;
+    public final JoystickButton kA;
+    public final JoystickButton kB;
+    public final JoystickButton kX;
+    public final JoystickButton kY;
+    public final JoystickButton kLeftBumper;
+    public final JoystickButton kLeftStick;
+    public final JoystickButton kRightBumper;
+    public final JoystickButton kRightStick;
+    public final JoystickButton kBack;
+    public final JoystickButton kStart;
 
-    public final Button dPadUp;
-    public final Button dPadRight;
-    public final Button dPadDown;
-    public final Button dPadLeft;
+    public final Button kDPadUp;
+    public final Button kDPadRight;
+    public final Button kDPadDown;
+    public final Button kDPadLeft;
 
     private final XboxController m_controller;
 
     public Frc4947Controller(int port) {
         m_controller = new XboxController(port);
 
-        A = new JoystickButton(m_controller, XboxController.Button.kA.value);
-        B = new JoystickButton(m_controller, XboxController.Button.kB.value);
-        X = new JoystickButton(m_controller, XboxController.Button.kX.value);
-        Y = new JoystickButton(m_controller, XboxController.Button.kY.value);
+        kA = new JoystickButton(m_controller, XboxController.Button.kA.value);
+        kB = new JoystickButton(m_controller, XboxController.Button.kB.value);
+        kX = new JoystickButton(m_controller, XboxController.Button.kX.value);
+        kY = new JoystickButton(m_controller, XboxController.Button.kY.value);
 
-        leftBumper = new JoystickButton(m_controller, XboxController.Button.kLeftBumper.value);
-        leftStick = new JoystickButton(m_controller, XboxController.Button.kLeftStick.value);
+        kLeftBumper = new JoystickButton(m_controller, XboxController.Button.kLeftBumper.value);
+        kLeftStick = new JoystickButton(m_controller, XboxController.Button.kLeftStick.value);
 
-        rightBumper = new JoystickButton(m_controller, XboxController.Button.kRightBumper.value);
-        rightStick = new JoystickButton(m_controller, XboxController.Button.kRightStick.value);
+        kRightBumper = new JoystickButton(m_controller, XboxController.Button.kRightBumper.value);
+        kRightStick = new JoystickButton(m_controller, XboxController.Button.kRightStick.value);
 
-        back = new JoystickButton(m_controller, XboxController.Button.kBack.value);
-        start = new JoystickButton(m_controller, XboxController.Button.kStart.value);
+        kBack = new JoystickButton(m_controller, XboxController.Button.kBack.value);
+        kStart = new JoystickButton(m_controller, XboxController.Button.kStart.value);
 
-        dPadUp = new Frc4947DPadButton(m_controller, 0);
-        dPadRight = new Frc4947DPadButton(m_controller, 90);
-        dPadDown = new Frc4947DPadButton(m_controller, 180);
-        dPadLeft = new Frc4947DPadButton(m_controller, 270);
+        kDPadUp = new Frc4947DPadButton(m_controller, 0);
+        kDPadRight = new Frc4947DPadButton(m_controller, 90);
+        kDPadDown = new Frc4947DPadButton(m_controller, 180);
+        kDPadLeft = new Frc4947DPadButton(m_controller, 270);
     }
 
     public double getLeftX() {
