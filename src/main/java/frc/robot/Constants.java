@@ -38,4 +38,15 @@ public final class Constants {
     public static final class InstakeConstants {
         public static final int kMotorDeviceId = 36;
     }
+
+    public static final class ShooterConstants {
+        public static final int kFeederDeviceId = 35;
+        public static final int kShooterDeviceId = 32;
+
+        public static final int kCylindersSolenoidChannelId = 1;
+
+        public static final double kSpinSpeed = 0.5;
+        public static final double kSpinDelaySec = 1.0;
+        public static final double kAfterShotDelaySec = 1.0;
+    }    
 }
