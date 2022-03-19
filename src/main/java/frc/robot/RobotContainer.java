@@ -1,6 +1,10 @@
 package frc.robot;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.Constants.ControllerConstants;
 import frc.robot.commands.drivetrain.DriveArcade;
 import frc.robot.controllers.Frc4947Controller;
@@ -20,21 +24,35 @@ public class RobotContainer {
     // Subsystems.
     private final DriveTrain m_driveTrain = new DriveTrain();
 
+    // Commands.
+    private final CommandBase m_shiftHigh = new InstantCommand(m_driveTrain::shiftHigh);
+    private final CommandBase m_shiftLow = new InstantCommand(m_driveTrain::shiftLow);
+
     // Default commands.
     private final DriveArcade m_driveArcade = new DriveArcade(m_driverController, m_driveTrain);
 
     public RobotContainer() {
         configureButtonBindings();
         configureDefaultCommands();
+        configureSmartDashboard();
     }
 
     private void configureButtonBindings() {
-        m_driverController.A.whenPressed(m_driveTrain::shiftHigh);
-        m_driverController.X.whenPressed(m_driveTrain::shiftLow);
+        m_driverController.A.whenPressed(m_shiftHigh);
+        m_driverController.X.whenPressed(m_shiftLow);
     }
 
     private void configureDefaultCommands() {
         m_driveTrain.setDefaultCommand(m_driveArcade);
+    }
+
+    private void configureSmartDashboard() {
+        SmartDashboard.putData(CommandScheduler.getInstance());
+
+        SmartDashboard.putData(m_driveTrain);
+
+        SmartDashboard.putData("Shift High", m_shiftHigh);
+        SmartDashboard.putData("Shift Low", m_shiftLow);
     }
 
     public Command getAutonomousCommand() {
