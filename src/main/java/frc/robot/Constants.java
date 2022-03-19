@@ -20,11 +20,11 @@ public final class Constants {
     }
 
     public static final class DriveTrainConstants {
-        public static final int kLeftLeaderDeviceId = 40;
-        public static final int kLeftFollowerDeviceId = 41;
+        public static final int kLeftLeaderDeviceId = 28;
+        public static final int kLeftFollowerDeviceId = 27;
 
-        public static final int kRightLeaderDeviceId = 21;
-        public static final int kRightFollowerDeviceId = 31;
+        public static final int kRightLeaderDeviceId = 24;
+        public static final int kRightFollowerDeviceId = 23;
 
         public static final int kShifterSolenoidChannelId = 0;
 
