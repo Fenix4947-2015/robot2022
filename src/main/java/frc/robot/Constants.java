@@ -26,7 +26,7 @@ public final class Constants {
         public static final int kRightLeaderDeviceId = 24;
         public static final int kRightFollowerDeviceId = 23;
 
-        public static final int kShifterSolenoidChannelId = 0;
+        public static final int kShifterSolenoidChannelId = 2;
 
         private static final double kGearRatio = 10.86;
         private static final double kWheelDiameterMeters = Units.inchesToMeters(6.0);
