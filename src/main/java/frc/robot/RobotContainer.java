@@ -9,9 +9,13 @@ import frc.robot.Constants.ControllerConstants;
 import frc.robot.commands.StopAll;
 import frc.robot.commands.drivetrain.DriveArcade;
 import frc.robot.commands.intake.Roll;
+import frc.robot.commands.shooter.Shoot;
+import frc.robot.commands.shooter.SpinShooter;
+import frc.robot.commands.shooter.StopShooter;
 import frc.robot.controllers.Frc4947Controller;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.Shooter;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -28,11 +32,17 @@ public class RobotContainer {
     // Subsystems.
     private final DriveTrain m_driveTrain = new DriveTrain();
     private final Intake m_intake = new Intake();
+    private final Shooter m_shooter = new Shooter();
 
     // Commands.
+    private final CommandBase m_closeShooter = new InstantCommand(m_shooter::close, m_shooter);
+    private final CommandBase m_openShooter = new InstantCommand(m_shooter::open, m_shooter);
+    private final CommandBase m_spinShooter = new SpinShooter(m_shooter);
+    private final CommandBase m_stopShooter = new StopShooter(m_shooter);
+    private final CommandBase m_shoot = new Shoot(m_shooter);
     private final CommandBase m_shiftHigh = new InstantCommand(m_driveTrain::shiftHigh);
     private final CommandBase m_shiftLow = new InstantCommand(m_driveTrain::shiftLow);
-    private final CommandBase m_stopAll = new StopAll(m_driveTrain, m_intake);
+    private final CommandBase m_stopAll = new StopAll(m_driveTrain, m_intake, m_shooter);
 
     // Default commands.
     private final DriveArcade m_driveArcade = new DriveArcade(m_driverController, m_driveTrain);
@@ -49,6 +59,11 @@ public class RobotContainer {
         m_driverController.kX.whenPressed(m_shiftLow);
         m_driverController.kBack.whenPressed(m_stopAll);
 
+        m_helperController.kA.whenPressed(m_spinShooter);
+        m_helperController.kX.whenPressed(m_stopShooter);
+        m_helperController.kLeftBumper.whenPressed(m_openShooter);
+        m_helperController.kRightBumper.whenPressed(m_closeShooter);
+        m_helperController.kB.whenPressed(m_shoot);
         m_helperController.kBack.whenPressed(m_stopAll);
     }
 
@@ -62,10 +77,16 @@ public class RobotContainer {
 
         SmartDashboard.putData(m_driveTrain);
         SmartDashboard.putData(m_intake);
+        SmartDashboard.putData(m_shooter);
 
+        SmartDashboard.putData("Close Shooter", m_closeShooter);
+        SmartDashboard.putData("Open Shooter", m_openShooter);
         SmartDashboard.putData("Shift High", m_shiftHigh);
         SmartDashboard.putData("Shift Low", m_shiftLow);
+        SmartDashboard.putData("Shoot", m_shoot);
+        SmartDashboard.putData("Spin Shooter", m_spinShooter);
         SmartDashboard.putData("Stop All", m_stopAll);
+        SmartDashboard.putData("Stop Shooter", m_stopShooter);
     }
 
     public Command getAutonomousCommand() {
