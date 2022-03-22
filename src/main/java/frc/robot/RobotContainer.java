@@ -35,8 +35,8 @@ public class RobotContainer {
     private final Shooter m_shooter = new Shooter();
 
     // Commands.
-    private final CommandBase m_closeShooter = new InstantCommand(m_shooter::close, m_shooter);
-    private final CommandBase m_openShooter = new InstantCommand(m_shooter::open, m_shooter);
+    private final CommandBase m_moveShooterUp = new InstantCommand(m_shooter::moveUp, m_shooter);
+    private final CommandBase m_moveShooterDown = new InstantCommand(m_shooter::moveDown, m_shooter);
     private final CommandBase m_spinShooter = new SpinShooter(m_shooter);
     private final CommandBase m_stopShooter = new StopShooter(m_shooter);
     private final CommandBase m_shoot = new Shoot(m_shooter);
@@ -61,8 +61,8 @@ public class RobotContainer {
 
         m_helperController.kA.whenPressed(m_spinShooter);
         m_helperController.kX.whenPressed(m_stopShooter);
-        m_helperController.kLeftBumper.whenPressed(m_openShooter);
-        m_helperController.kRightBumper.whenPressed(m_closeShooter);
+        m_helperController.kLeftBumper.whenPressed(m_moveShooterDown);
+        m_helperController.kRightBumper.whenPressed(m_moveShooterUp);
         m_helperController.kB.whenPressed(m_shoot);
         m_helperController.kBack.whenPressed(m_stopAll);
     }
@@ -79,14 +79,18 @@ public class RobotContainer {
         SmartDashboard.putData(m_intake);
         SmartDashboard.putData(m_shooter);
 
-        SmartDashboard.putData("Close Shooter", m_closeShooter);
-        SmartDashboard.putData("Open Shooter", m_openShooter);
+        SmartDashboard.putData("Move Shooter Up", m_moveShooterUp);
+        SmartDashboard.putData("Move Shooter Down", m_moveShooterDown);
         SmartDashboard.putData("Shift High", m_shiftHigh);
         SmartDashboard.putData("Shift Low", m_shiftLow);
         SmartDashboard.putData("Shoot", m_shoot);
         SmartDashboard.putData("Spin Shooter", m_spinShooter);
         SmartDashboard.putData("Stop All", m_stopAll);
         SmartDashboard.putData("Stop Shooter", m_stopShooter);
+    }
+
+    public void teleopInit() {
+        m_moveShooterUp.schedule();
     }
 
     public Command getAutonomousCommand() {
