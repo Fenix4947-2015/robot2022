@@ -45,8 +45,33 @@ public final class Constants {
 
         public static final int kCylindersSolenoidChannelId = 1;
 
-        public static final double kSpinSpeed = 0.7;
-        public static final double kSpinDelaySec = 1.0;
+        public static final double kShooterBackP = 0.0;
+        public static final double kShooterBackI = 0.0;
+        public static final double kShooterBackD = 0.0;
+        public static final double kShooterBackMinOutput = -1.0;
+        public static final double kShooterBackMaxOutput = 1.0;
+
+        public static final double kShooterBackKs = 0.0;
+        public static final double kShooterBackKv = 0.0;
+        public static final double kShooterBackKa = 0.0;
+
+        public static final double kShooterBackSetpointRpm = 1000.0;
+        public static final double kShooterBackToleranceRpm = 50.0;        
+
+        public static final double kShooterFrontP = 0.0;
+        public static final double kShooterFrontI = 0.0;
+        public static final double kShooterFrontD = 0.0;
+        public static final double kShooterFrontMinOutput = -1.0;
+        public static final double kShooterFrontMaxOutput = 1.0;
+
+        public static final double kShooterFrontKs = 0.0;
+        public static final double kShooterFrontKv = 0.0;
+        public static final double kShooterFrontKa = 0.0;
+
+        public static final double kShooterFrontSetpointRpm = 1000.0;
+        public static final double kShooterFrontToleranceRpm = 50.0;        
+
+        public static final double kSpinTimeoutSec = Double.MAX_VALUE;
         public static final double kAfterShotDelaySec = 1.0;
     }    
 }

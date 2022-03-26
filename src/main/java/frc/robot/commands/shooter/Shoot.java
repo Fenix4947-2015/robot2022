@@ -12,7 +12,6 @@ public class Shoot extends SequentialCommandGroup {
         addCommands(
                 new InstantCommand(shooter::moveDown, shooter),
                 new SpinShooter(shooter),
-                new WaitCommand(ShooterConstants.kSpinDelaySec),
                 new InstantCommand(shooter::moveUp, shooter),
                 new WaitCommand(ShooterConstants.kAfterShotDelaySec),
                 new StopShooter(shooter),
