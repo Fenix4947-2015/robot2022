@@ -36,11 +36,10 @@ public class DriveTrain extends SubsystemBase {
         m_rightLeader.setIdleMode(IdleMode.kBrake);
         m_rightFollower.setIdleMode(IdleMode.kBrake);
 
-        m_leftLeader.setInverted(true);
-        m_leftFollower.setInverted(true);
-
         m_leftFollower.follow(m_leftLeader);
         m_rightFollower.follow(m_rightLeader);
+
+        m_leftLeader.setInverted(true);
 
         m_leftLeaderEncoder.setPositionConversionFactor(DriveTrainConstants.kEncoderPositionConversionFactor);
         m_rightLeaderEncoder.setPositionConversionFactor(DriveTrainConstants.kEncoderPositionConversionFactor);
