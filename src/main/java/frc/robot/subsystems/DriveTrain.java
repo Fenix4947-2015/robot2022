@@ -1,5 +1,7 @@
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import com.ctre.phoenix.sensors.WPI_PigeonIMU;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
@@ -20,6 +22,9 @@ public class DriveTrain extends SubsystemBase {
     private final CANSparkMax m_rightFollower = new CANSparkMax(DriveTrainConstants.kRightFollowerDeviceId, MotorType.kBrushless);
 
     private final Solenoid m_shifter = new Solenoid(PneumaticsModuleType.CTREPCM, DriveTrainConstants.kShifterSolenoidChannelId);
+
+    private final WPI_TalonSRX m_spareTalon = new WPI_TalonSRX(DriveTrainConstants.kSpareTalonDeviceNumber);
+    private final WPI_PigeonIMU m_gyro = new WPI_PigeonIMU(m_spareTalon);
 
     private final DifferentialDrive m_drive = new DifferentialDrive(m_leftLeader, m_rightLeader);
     private final RelativeEncoder m_leftLeaderEncoder = m_leftLeader.getEncoder();
@@ -47,15 +52,23 @@ public class DriveTrain extends SubsystemBase {
         m_leftLeaderEncoder.setVelocityConversionFactor(DriveTrainConstants.kEncoderVelocityConversionFactor);
         m_rightLeaderEncoder.setVelocityConversionFactor(DriveTrainConstants.kEncoderVelocityConversionFactor);
 
+        m_spareTalon.configFactoryDefault();
+        m_gyro.configFactoryDefault();
+
         shiftLow();
         reset();
 
         addChild("Drive", m_drive);
+        addChild("Gyro", m_gyro);
         addChild("Shifter", m_shifter);
     }
 
     public void arcadeDrive(double xSpeed, double zRotation) {
         m_drive.arcadeDrive(xSpeed, zRotation);
+    }
+
+    public double getHeading() {
+        return m_gyro.getAngle();
     }
 
     public double getPosition() {
@@ -65,6 +78,8 @@ public class DriveTrain extends SubsystemBase {
     public void reset() {
         m_leftLeaderEncoder.setPosition(0.0);
         m_rightLeaderEncoder.setPosition(0.0);
+
+        m_gyro.reset();
     }
 
     public void shiftHigh() {
