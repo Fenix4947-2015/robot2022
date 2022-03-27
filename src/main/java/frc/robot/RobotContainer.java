@@ -1,12 +1,19 @@
 package frc.robot;
 
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.PrintCommand;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.Constants.ControllerConstants;
 import frc.robot.commands.StopAll;
+import frc.robot.commands.autonomous.ExitTarmacPID;
+import frc.robot.commands.autonomous.ExitTarmacTimer;
+import frc.robot.commands.autonomous.Shoot1Ball;
+import frc.robot.commands.autonomous.Shoot2Balls;
 import frc.robot.commands.drivetrain.DriveArcade;
 import frc.robot.commands.intake.Roll;
 import frc.robot.commands.shooter.Shoot;
@@ -48,9 +55,20 @@ public class RobotContainer {
     private final DriveArcade m_driveArcade = new DriveArcade(m_driverController, m_driveTrain);
     private final CommandBase m_roll = new Roll(m_helperController, m_intake);
 
+    // Autonomous commands.
+    private final CommandBase m_autoNone = new PrintCommand("No autonomous command selected");
+    private final CommandBase m_autoExitTarmacPID = new ExitTarmacPID(m_driveTrain);
+    private final CommandBase m_autoExitTarmacTimer = new ExitTarmacTimer(m_driveTrain);
+    private final CommandBase m_autoShoot1Ball = new Shoot1Ball(m_shooter, m_driveTrain);
+    private final CommandBase m_autoShoot2Balls = new Shoot2Balls(m_shooter, m_intake, m_driveTrain);
+
+    private final SendableChooser<Integer> m_autonomousDelayChooser = new SendableChooser<>();
+    private final SendableChooser<Command> m_autonomousCommandChooser = new SendableChooser<>();    
+
     public RobotContainer() {
         configureButtonBindings();
         configureDefaultCommands();
+        configureAutonomousCommands();
         configureSmartDashboard();
     }
 
@@ -72,6 +90,22 @@ public class RobotContainer {
         m_intake.setDefaultCommand(m_roll);
     }
 
+    private void configureAutonomousCommands() {
+        m_autonomousDelayChooser.setDefaultOption("0", 0);
+        for (int i = 1; i <= 15; ++i) {
+            m_autonomousDelayChooser.addOption(String.valueOf(i), i);
+        }
+
+        m_autonomousCommandChooser.setDefaultOption("None", m_autoNone);
+        m_autonomousCommandChooser.addOption("Exit Tarmac (PID)", m_autoExitTarmacPID);
+        m_autonomousCommandChooser.addOption("Exit Tarmac (timer)", m_autoExitTarmacTimer);
+        m_autonomousCommandChooser.addOption("Shoot 1 Ball", m_autoShoot1Ball);
+        m_autonomousCommandChooser.addOption("Shoot 2 Balls", m_autoShoot2Balls);
+
+        SmartDashboard.putData("Autonomous Delay", m_autonomousDelayChooser);
+        SmartDashboard.putData("Autonomous Command", m_autonomousCommandChooser);
+    }
+
     private void configureSmartDashboard() {
         SmartDashboard.putData(CommandScheduler.getInstance());
 
@@ -89,11 +123,21 @@ public class RobotContainer {
         SmartDashboard.putData("Stop Shooter", m_stopShooter);
     }
 
-    public void teleopInit() {
-        m_moveShooterUp.schedule();
+    private int getAutonomousDelay() {
+        Integer autonomousDelay = m_autonomousDelayChooser.getSelected();
+        return (autonomousDelay != null) ? autonomousDelay.intValue() : 0;
     }
 
     public Command getAutonomousCommand() {
-        return null;
+        int autonomousDelay = getAutonomousDelay();
+        if (autonomousDelay > 0) {
+            return m_autonomousCommandChooser.getSelected().beforeStarting(new WaitCommand(autonomousDelay));
+        }
+
+        return m_autonomousCommandChooser.getSelected();
+    }
+
+    public void teleopInit() {
+        m_moveShooterUp.schedule();
     }
 }
