@@ -35,6 +35,12 @@ public final class Constants {
         public static final double kEncoderVelocityConversionFactor = (Math.PI * kWheelDiameterMeters) / (kGearRatio * 60.0); // in meters per second
 
         public static final int kSpareTalonDeviceNumber = -1;
+
+        public static final double kTurnP = 1;
+        public static final double kTurnI = 0;
+        public static final double kTurnD = 0;
+        public static final double kTurnToleranceDegrees = 5;
+        public static final double kTurnRateToleranceDegreesPerSec = 10; // degrees per second
     }
 
     public static final class InstakeConstants {

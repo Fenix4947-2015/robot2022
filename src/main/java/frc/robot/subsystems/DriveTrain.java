@@ -63,8 +63,8 @@ public class DriveTrain extends SubsystemBase {
         addChild("Shifter", m_shifter);
     }
 
-    public void arcadeDrive(double xSpeed, double zRotation) {
-        m_drive.arcadeDrive(xSpeed, zRotation);
+    public void arcadeDrive(double speed, double rotation) {
+        m_drive.arcadeDrive(speed, rotation);
     }
 
     public double getHeading() {
