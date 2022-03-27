@@ -12,10 +12,12 @@ import frc.robot.commands.intake.Roll;
 import frc.robot.commands.shooter.Shoot;
 import frc.robot.commands.shooter.SpinShooter;
 import frc.robot.commands.shooter.StopShooter;
+import frc.robot.commands.winch.Pull;
 import frc.robot.controllers.Frc4947Controller;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Shooter;
+import frc.robot.subsystems.Winch;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -33,6 +35,7 @@ public class RobotContainer {
     private final DriveTrain m_driveTrain = new DriveTrain();
     private final Intake m_intake = new Intake();
     private final Shooter m_shooter = new Shooter();
+    private final Winch m_winch = new Winch();
 
     // Commands.
     private final CommandBase m_moveShooterUp = new InstantCommand(m_shooter::moveUp, m_shooter);
@@ -46,6 +49,7 @@ public class RobotContainer {
 
     // Default commands.
     private final DriveArcade m_driveArcade = new DriveArcade(m_driverController, m_driveTrain);
+    private final CommandBase m_pull = new Pull(m_helperController, m_winch);
     private final CommandBase m_roll = new Roll(m_helperController, m_intake);
 
     public RobotContainer() {
@@ -70,6 +74,7 @@ public class RobotContainer {
     private void configureDefaultCommands() {
         m_driveTrain.setDefaultCommand(m_driveArcade);
         m_intake.setDefaultCommand(m_roll);
+        m_winch.setDefaultCommand(m_pull);
     }
 
     private void configureSmartDashboard() {

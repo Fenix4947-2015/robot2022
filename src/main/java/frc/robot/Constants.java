@@ -48,5 +48,10 @@ public final class Constants {
         public static final double kSpinSpeed = 0.7;
         public static final double kSpinDelaySec = 1.0;
         public static final double kAfterShotDelaySec = 1.0;
-    }    
+    }   
+
+    public static final class WinchConstants {
+        public static final int kLeaderDeviceId = 21;
+        public static final int kFollowerDeviceId = 31;
+    }     
 }
