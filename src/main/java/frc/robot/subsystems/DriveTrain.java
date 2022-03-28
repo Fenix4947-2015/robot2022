@@ -39,7 +39,7 @@ public class DriveTrain extends SubsystemBase {
         m_leftFollower.follow(m_leftLeader);
         m_rightFollower.follow(m_rightLeader);
 
-        m_leftLeader.setInverted(true);
+        m_rightLeader.setInverted(true);
 
         m_leftLeaderEncoder.setPositionConversionFactor(DriveTrainConstants.kEncoderPositionConversionFactor);
         m_rightLeaderEncoder.setPositionConversionFactor(DriveTrainConstants.kEncoderPositionConversionFactor);
