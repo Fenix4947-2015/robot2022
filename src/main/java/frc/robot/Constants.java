@@ -53,5 +53,7 @@ public final class Constants {
     public static final class WinchConstants {
         public static final int kLeaderDeviceId = 21;
         public static final int kFollowerDeviceId = 31;
+        public static final int kLimitSwitchClosedId = 1;
+        public static final int kLimitSwitchOpenId = 0;
     }     
 }
