@@ -45,7 +45,8 @@ public final class Constants {
 
         public static final int kCylindersSolenoidChannelId = 1;
 
-        public static final double kSpinSpeed = 0.6;
+        public static final double kSpinSpeed = 0.5;
+        public static final double kBeforeSpinDelaySec = 0.5;
         public static final double kSpinDelaySec = 1.0;
         public static final double kAfterShotDelaySec = 1.0;
     }   

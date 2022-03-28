@@ -31,14 +31,17 @@ public class Winch extends SubsystemBase {
     }
 
     public void pull(double speed) {
+        //System.out.println("limitClosed: " + m_limitSwitchClosed.get());
+        //System.out.println("limitOpen: " + m_limitSwitchOpen.get());
+        //System.out.println("speed: " + speed);
         if (speed > 0) {
-            if (!m_limitSwitchClosed.get()) {
+            if (m_limitSwitchClosed.get()) {
                 m_leader.set(0);
             } else {
                 m_leader.set(speed);
             }
         } else {
-            if (m_limitSwitchOpen.get()) {
+            if (!m_limitSwitchOpen.get()) {
                 m_leader.set(0);
             } else {
                 m_leader.set(speed);

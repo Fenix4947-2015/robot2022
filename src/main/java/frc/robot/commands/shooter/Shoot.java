@@ -10,12 +10,13 @@ public class Shoot extends SequentialCommandGroup {
 
     public Shoot(Shooter shooter) {
         addCommands(
-                new InstantCommand(shooter::moveDown, shooter),
+                new InstantCommand(shooter::moveUp, shooter),
+                new WaitCommand(ShooterConstants.kBeforeSpinDelaySec),
                 new SpinShooter(shooter),
                 new WaitCommand(ShooterConstants.kSpinDelaySec),
-                new InstantCommand(shooter::moveUp, shooter),
+                new InstantCommand(shooter::moveDown, shooter),
                 new WaitCommand(ShooterConstants.kAfterShotDelaySec),
                 new StopShooter(shooter),
-                new InstantCommand(shooter::moveDown, shooter));
+                new InstantCommand(shooter::moveUp, shooter));
     }
 }
