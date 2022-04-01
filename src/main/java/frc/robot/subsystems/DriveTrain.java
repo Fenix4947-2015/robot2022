@@ -10,6 +10,7 @@ import com.revrobotics.RelativeEncoder;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.DriveTrainConstants;
@@ -26,9 +27,10 @@ public class DriveTrain extends SubsystemBase {
     private final WPI_TalonSRX m_spareTalon = new WPI_TalonSRX(DriveTrainConstants.kSpareTalonDeviceNumber);
     private final WPI_PigeonIMU m_gyro = new WPI_PigeonIMU(m_spareTalon);
 
-    private final DifferentialDrive m_drive = new DifferentialDrive(m_leftLeader, m_rightLeader);
     private final RelativeEncoder m_leftLeaderEncoder = m_leftLeader.getEncoder();
     private final RelativeEncoder m_rightLeaderEncoder = m_rightLeader.getEncoder();
+
+    private final DifferentialDrive m_drive;
 
     public DriveTrain() {
         m_leftLeader.restoreFactoryDefaults();
@@ -41,10 +43,13 @@ public class DriveTrain extends SubsystemBase {
         m_rightLeader.setIdleMode(IdleMode.kBrake);
         m_rightFollower.setIdleMode(IdleMode.kBrake);
 
-        m_leftFollower.follow(m_leftLeader);
-        m_rightFollower.follow(m_rightLeader);
+        final var leftMotorGroup = new MotorControllerGroup(m_leftLeader, m_leftFollower);
+        final var rightMotorGroup = new MotorControllerGroup(m_rightLeader, m_rightFollower);
 
-        m_rightLeader.setInverted(true);
+        // Inversion applies to all motors in group
+        rightMotorGroup.setInverted(true);
+
+        m_drive = new DifferentialDrive(leftMotorGroup, rightMotorGroup);
 
         m_leftLeaderEncoder.setPositionConversionFactor(DriveTrainConstants.kEncoderPositionConversionFactor);
         m_rightLeaderEncoder.setPositionConversionFactor(DriveTrainConstants.kEncoderPositionConversionFactor);
