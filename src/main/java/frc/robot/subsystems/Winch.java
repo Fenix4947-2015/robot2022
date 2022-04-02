@@ -25,6 +25,9 @@ public class Winch extends SubsystemBase {
         m_follower.setIdleMode(IdleMode.kBrake);
 
         m_follower.follow(m_leader, false);
+
+        m_leader.burnFlash();
+        m_follower.burnFlash();
     }
 
     public void pull(double speed) {

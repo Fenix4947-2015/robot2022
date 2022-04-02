@@ -28,6 +28,9 @@ public class Shooter extends SubsystemBase {
         m_shooterBack.setIdleMode(IdleMode.kCoast);
         m_shooterFront.setIdleMode(IdleMode.kCoast);
 
+        m_shooterBack.burnFlash();
+        m_shooterFront.burnFlash();
+
         addChild("Cylinders", m_cylinders);
     }
 

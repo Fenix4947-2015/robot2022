@@ -52,6 +52,11 @@ public class DriveTrain extends SubsystemBase {
         m_leftLeaderEncoder.setVelocityConversionFactor(DriveTrainConstants.kEncoderVelocityConversionFactor);
         m_rightLeaderEncoder.setVelocityConversionFactor(DriveTrainConstants.kEncoderVelocityConversionFactor);
 
+        m_leftLeader.burnFlash();
+        m_leftFollower.burnFlash();
+        m_rightLeader.burnFlash();
+        m_rightFollower.burnFlash();
+
         m_spareTalon.configFactoryDefault();
         m_gyro.configFactoryDefault();
 

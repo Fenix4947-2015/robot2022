@@ -19,6 +19,8 @@ public class Intake extends SubsystemBase {
         m_motor.restoreFactoryDefaults();
         m_motor.setIdleMode(IdleMode.kBrake);
         m_motor.setInverted(true);
+
+        m_motor.burnFlash();
     }
 
     public void roll(double speed) {
