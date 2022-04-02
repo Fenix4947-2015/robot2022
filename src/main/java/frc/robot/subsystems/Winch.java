@@ -3,7 +3,6 @@ package frc.robot.subsystems;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
-import com.revrobotics.RelativeEncoder;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -17,8 +16,6 @@ public class Winch extends SubsystemBase {
 
     private final DigitalInput m_limitSwitchClosed = new DigitalInput(WinchConstants.kLimitSwitchClosedId);
     private final DigitalInput m_limitSwitchOpen = new DigitalInput(WinchConstants.kLimitSwitchOpenId);
-    //private final RelativeEncoder m_leaderEncoder = m_leader.getEncoder();
-   // private final RelativeEncoder m_followerEncoder = m_follower.getEncoder();
 
     public Winch() {
         m_leader.restoreFactoryDefaults();
@@ -31,9 +28,6 @@ public class Winch extends SubsystemBase {
     }
 
     public void pull(double speed) {
-        //System.out.println("limitClosed: " + m_limitSwitchClosed.get());
-        //System.out.println("limitOpen: " + m_limitSwitchOpen.get());
-        //System.out.println("speed: " + speed);
         if (speed > 0) {
             if (m_limitSwitchClosed.get()) {
                 m_leader.set(0);
@@ -55,7 +49,6 @@ public class Winch extends SubsystemBase {
 
     @Override
     public void periodic() {
-        //SmartDashboard.putNumber("Winch Leader Speed (RPM)", m_leaderEncoder.getVelocity());
         SmartDashboard.putNumber("Winch Leader Bus Voltage", m_leader.getBusVoltage());
         SmartDashboard.putNumber("Winch Leader Current", m_leader.getOutputCurrent());
         SmartDashboard.putNumber("Winch Leader Applied Output", m_leader.getAppliedOutput());
@@ -63,12 +56,5 @@ public class Winch extends SubsystemBase {
 
         SmartDashboard.putBoolean("Limit switch Closed", m_limitSwitchClosed.get());
         SmartDashboard.putBoolean("Limit switch Open", m_limitSwitchOpen.get());
-        /*
-        SmartDashboard.putNumber("Winch Follower Speed (RPM)", m_followerEncoder.getVelocity());
-        SmartDashboard.putNumber("Winch Follower Bus Voltage", m_follower.getBusVoltage());
-        SmartDashboard.putNumber("Winch Follower Current", m_follower.getOutputCurrent());
-        SmartDashboard.putNumber("Winch Follower Applied Output", m_follower.getAppliedOutput());
-        SmartDashboard.putNumber("Winch Follower Temperature (C)", m_follower.getMotorTemperature());     
-        */   
     }
 }
