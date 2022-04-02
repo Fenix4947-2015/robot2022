@@ -1,10 +1,12 @@
 package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkMax;
-import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+import com.revrobotics.RelativeEncoder;
 
+import edu.wpi.first.math.filter.LinearFilter;
+import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -21,6 +23,13 @@ public class Shooter extends SubsystemBase {
     private final RelativeEncoder m_shooterBackEncoder = m_shooterBack.getEncoder();
     private final RelativeEncoder m_shooterFrontEncoder = m_shooterFront.getEncoder();
 
+    private final Encoder m_shooterBackQuadratureEncoder = new Encoder(2, 3);
+    private final Encoder m_shooterFrontQuadratureEncoder = new Encoder(4, 5);
+
+    private final LinearFilter m_shooterBackRpmAverage = LinearFilter.movingAverage(4);
+    private double m_shooterBackLastPosition = -1.0;
+    private double m_shooterBackRpm = -1.0;
+
     public Shooter() {
         m_shooterBack.restoreFactoryDefaults();
         m_shooterFront.restoreFactoryDefaults();
@@ -31,7 +40,18 @@ public class Shooter extends SubsystemBase {
         m_shooterBack.burnFlash();
         m_shooterFront.burnFlash();
 
+        m_shooterBackQuadratureEncoder.setDistancePerPulse(1.0 / 8192.0); // 1 rotation per 8192 pulses
+        m_shooterFrontQuadratureEncoder.setDistancePerPulse(1.0 / 8192.0); // 1 rotation per 8192 pulses
+
         addChild("Cylinders", m_cylinders);
+    }
+
+    public double getShooterBackRpm() {
+        return m_shooterBackEncoder.getVelocity();
+    }
+
+    public double getShooterBackQuadratureRpm() {
+        return m_shooterBackQuadratureEncoder.getRate() * 60.0;
     }
 
     public void moveUp() {
@@ -54,7 +74,17 @@ public class Shooter extends SubsystemBase {
 
     @Override
     public void periodic() {
+        if (m_shooterBackLastPosition > -1.0) {
+            m_shooterBackRpm = m_shooterBackRpmAverage.calculate(
+                (m_shooterBackEncoder.getPosition() - m_shooterBackLastPosition) / 0.02 * 60.0);
+        }
+
+        m_shooterBackLastPosition = m_shooterBackEncoder.getPosition();
+
+        SmartDashboard.putNumber("Shooter Back Quadrature Speed (RPM)", getShooterBackQuadratureRpm());
         SmartDashboard.putNumber("Shooter Back Speed (RPM)", m_shooterBackEncoder.getVelocity());
+        SmartDashboard.putNumber("Shooter Back Speed Average (RPM)", m_shooterBackRpm);
+
         SmartDashboard.putNumber("Shooter Back Bus Voltage", m_shooterBack.getBusVoltage());
         SmartDashboard.putNumber("Shooter Back Current", m_shooterBack.getOutputCurrent());
         SmartDashboard.putNumber("Shooter Back Applied Output", m_shooterBack.getAppliedOutput());
