@@ -39,6 +39,8 @@ public final class Constants {
 
     public static final class InstakeConstants {
         public static final int kMotorDeviceId = 36;
+
+        public static final int kLatchSolenoidChannelId = 3;
     }
 
     public static final class ShooterConstants {
@@ -56,7 +58,10 @@ public final class Constants {
     public static final class WinchConstants {
         public static final int kLeaderDeviceId = 21;
         public static final int kFollowerDeviceId = 31;
+
         public static final int kLimitSwitchClosedId = 1;
         public static final int kLimitSwitchOpenId = 0;
+
+        public static final int kLatchSolenoidChannelId = 4;
     }     
 }

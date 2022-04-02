@@ -46,6 +46,8 @@ public class RobotContainer {
     private final CommandBase m_shiftHigh = new InstantCommand(m_driveTrain::shiftHigh);
     private final CommandBase m_shiftLow = new InstantCommand(m_driveTrain::shiftLow);
     private final CommandBase m_stopAll = new StopAll(m_driveTrain, m_intake, m_shooter);
+    private final CommandBase m_unlatchIntake = new InstantCommand(m_intake::unlatch);
+    private final CommandBase m_unlatchWinch = new InstantCommand(m_winch::unlatch);
 
     // Default commands.
     private final DriveArcade m_driveArcade = new DriveArcade(m_driverController, m_driveTrain);
@@ -84,14 +86,19 @@ public class RobotContainer {
         SmartDashboard.putData(m_intake);
         SmartDashboard.putData(m_shooter);
 
+        SmartDashboard.putData("Shift High", m_shiftHigh);
+        SmartDashboard.putData("Shift Low", m_shiftLow);        
+
         SmartDashboard.putData("Move Shooter Up", m_moveShooterUp);
         SmartDashboard.putData("Move Shooter Down", m_moveShooterDown);
-        SmartDashboard.putData("Shift High", m_shiftHigh);
-        SmartDashboard.putData("Shift Low", m_shiftLow);
         SmartDashboard.putData("Shoot", m_shoot);
         SmartDashboard.putData("Spin Shooter", m_spinShooter);
-        SmartDashboard.putData("Stop All", m_stopAll);
         SmartDashboard.putData("Stop Shooter", m_stopShooter);
+
+        SmartDashboard.putData("Unlatch Intake", m_unlatchIntake);
+        SmartDashboard.putData("Unlatch Winch", m_unlatchWinch);
+
+        SmartDashboard.putData("Stop All", m_stopAll);
     }
 
     public void teleopInit() {

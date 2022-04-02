@@ -5,6 +5,8 @@ import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.PneumaticsModuleType;
+import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.WinchConstants;
@@ -16,6 +18,8 @@ public class Winch extends SubsystemBase {
 
     private final DigitalInput m_limitSwitchClosed = new DigitalInput(WinchConstants.kLimitSwitchClosedId);
     private final DigitalInput m_limitSwitchOpen = new DigitalInput(WinchConstants.kLimitSwitchOpenId);
+
+    private final Solenoid m_latch = new Solenoid(PneumaticsModuleType.CTREPCM, WinchConstants.kLatchSolenoidChannelId);
 
     public Winch() {
         m_leader.restoreFactoryDefaults();
@@ -48,6 +52,10 @@ public class Winch extends SubsystemBase {
 
     public void stop() {
         m_leader.set(0.0);
+    }
+
+    public void unlatch() {
+        m_latch.set(true);
     }
 
     @Override
