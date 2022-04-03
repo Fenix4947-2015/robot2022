@@ -1,5 +1,6 @@
 package frc.robot.commands.autonomous.drivetrain;
 
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants.DriveTrainConstants;
@@ -31,7 +32,7 @@ public class TurnAngle extends CommandBase {
     @Override
     public void execute() {
         double speed = 0;
-        double rotation = m_pidController.calculate(m_driveTrain.getHeading(), m_targetAngleDegrees);
+        double rotation = MathUtil.clamp(m_pidController.calculate(m_driveTrain.getHeading(), m_targetAngleDegrees) * 1.0, -0.5, 0.5);
 
         m_driveTrain.arcadeDrive(speed, rotation);
     }

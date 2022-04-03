@@ -1,5 +1,6 @@
 package frc.robot;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -12,6 +13,7 @@ import frc.robot.Constants.ControllerConstants;
 import frc.robot.commands.StopAll;
 import frc.robot.commands.autonomous.ExitTarmacPID;
 import frc.robot.commands.autonomous.ExitTarmacTimer;
+import frc.robot.commands.autonomous.Shoot2Balls;
 import frc.robot.commands.drivetrain.DriveArcade;
 import frc.robot.commands.intake.Roll;
 import frc.robot.commands.shooter.Shoot;
@@ -57,7 +59,11 @@ public class RobotContainer {
     private final CommandBase m_stopAll = new StopAll(m_driveTrain, m_intake, m_shooter);
     private final CommandBase m_latchIntake = new InstantCommand(m_intake::latch);
     private final CommandBase m_unlatchIntake = new InstantCommand(m_intake::unlatch);
-    private final CommandBase m_unlatchWinch = new InstantCommand(m_winch::unlatch);
+    private final CommandBase m_unlatchWinch = new InstantCommand(() -> {
+        if (Timer.getMatchTime() < 30) {
+            m_winch.unlatch();
+        }
+    });
 
     // Default commands.
     private final DriveArcade m_driveArcade = new DriveArcade(m_driverController, m_driveTrain);
@@ -68,6 +74,7 @@ public class RobotContainer {
     private final CommandBase m_autoNone = new PrintCommand("No autonomous command selected");
     private final CommandBase m_autoExitTarmacTimer = new ExitTarmacTimer(m_driveTrain);
     private final CommandBase m_autoExitTarmacPID = new ExitTarmacPID(m_driveTrain);
+    private final CommandBase m_autoShoot2Balls = new Shoot2Balls(m_shooter, m_intake, m_driveTrain);
 
     private final SendableChooser<Integer> m_autonomousDelayChooser = new SendableChooser<>();
     private final SendableChooser<Command> m_autonomousCommandChooser = new SendableChooser<>();  
@@ -82,6 +89,7 @@ public class RobotContainer {
     private void configureButtonBindings() {
         m_driverController.kA.whenPressed(m_shiftHigh);
         m_driverController.kX.whenPressed(m_shiftLow);
+        m_driverController.kB.whenPressed(m_shoot);
         m_driverController.kBack.whenPressed(m_stopAll);
 
         m_helperController.kA.whenPressed(m_spinShooter);
@@ -89,6 +97,7 @@ public class RobotContainer {
         m_helperController.kLeftBumper.whenPressed(m_moveShooterDown);
         m_helperController.kRightBumper.whenPressed(m_moveShooterUp);
         m_helperController.kB.whenPressed(m_shoot);
+        m_helperController.kY.whenPressed(m_unlatchWinch);
         m_helperController.kBack.whenPressed(m_stopAll);
     }
 
@@ -108,7 +117,7 @@ public class RobotContainer {
         m_autonomousCommandChooser.addOption("Exit Tarmac (PID)", m_autoExitTarmacPID);
         m_autonomousCommandChooser.addOption("Exit Tarmac (timer)", m_autoExitTarmacTimer);
         //m_autonomousCommandChooser.addOption("Shoot 1 Ball", m_autoShoot1Ball);
-        //m_autonomousCommandChooser.addOption("Shoot 2 Balls", m_autoShoot2Balls);
+        m_autonomousCommandChooser.addOption("Shoot 2 Balls", m_autoShoot2Balls);
 
         SmartDashboard.putData("Autonomous Delay", m_autonomousDelayChooser);
         SmartDashboard.putData("Autonomous Command", m_autonomousCommandChooser);
@@ -140,6 +149,7 @@ public class RobotContainer {
 
     public void teleopInit() {
         m_driveTrain.shiftLow();
+        m_intake.unlatch();
         m_driveTrain.enableSafety();
         m_moveShooterUp.schedule();
     }

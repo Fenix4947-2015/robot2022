@@ -23,10 +23,9 @@ public class DriveStraight extends CommandBase {
         final double ki = SmartDashboard.getNumber("DT/PID_ki", 0.0);
 
         m_pidController = new PIDController(kp, ki, 0.0);
-        m_pidController.setTolerance(0.1);
+        m_pidController.setTolerance(0.25);
 
         addRequirements(driveTrain);
-
     }
 
     @Override
@@ -38,7 +37,7 @@ public class DriveStraight extends CommandBase {
 
     @Override
     public void execute() {
-        double speed = MathUtil.clamp(m_pidController.calculate(m_driveTrain.getPosition(), m_targetPositionMeters) * 0.2, -0.5, 0.5);
+        double speed = MathUtil.clamp(m_pidController.calculate(m_driveTrain.getPosition(), m_targetPositionMeters) * 0.7, -0.5, 0.5);
         double rotation = 0;//-m_driveTrain.getHeading();
 
         System.out.println(String.format("Speed: %f ; Rotation: %f", speed, rotation));
