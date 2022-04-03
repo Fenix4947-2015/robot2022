@@ -5,6 +5,7 @@ import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
+import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -21,6 +22,9 @@ public class Shooter extends SubsystemBase {
     private final RelativeEncoder m_shooterBackEncoder = m_shooterBack.getEncoder();
     private final RelativeEncoder m_shooterFrontEncoder = m_shooterFront.getEncoder();
 
+    private final Encoder m_shooterBackQuadratureEncoder = new Encoder(4, 5);
+    private final Encoder m_shooterFrontQuadratureEncoder = new Encoder(2, 3);
+
     public Shooter() {
         m_shooterBack.restoreFactoryDefaults();
         m_shooterFront.restoreFactoryDefaults();
@@ -31,7 +35,21 @@ public class Shooter extends SubsystemBase {
         m_shooterBack.burnFlash();
         m_shooterFront.burnFlash();
 
+        //m_shooterBackQuadratureEncoder.setSamplesToAverage(samplesToAverage);
+        m_shooterBackQuadratureEncoder.setDistancePerPulse(1.0 / 8192.0);
+        m_shooterFrontQuadratureEncoder.setDistancePerPulse(1.0 / 8192.0);
+
+        moveDown();
+
         addChild("Cylinders", m_cylinders);
+    }
+
+    public double getShooterBackQuadratureEncoderRpm() {
+        return m_shooterBackQuadratureEncoder.getRate() * 60.0;
+    }
+
+    public double getShooterFrontQuadratureEncoderRpm() {
+        return m_shooterFrontQuadratureEncoder.getRate() * 60.0;
     }
 
     public void moveUp() {
@@ -54,16 +72,22 @@ public class Shooter extends SubsystemBase {
 
     @Override
     public void periodic() {
-        SmartDashboard.putNumber("Shooter Back Speed (RPM)", m_shooterBackEncoder.getVelocity());
-        SmartDashboard.putNumber("Shooter Back Bus Voltage", m_shooterBack.getBusVoltage());
-        SmartDashboard.putNumber("Shooter Back Current", m_shooterBack.getOutputCurrent());
-        SmartDashboard.putNumber("Shooter Back Applied Output", m_shooterBack.getAppliedOutput());
-        SmartDashboard.putNumber("Shooter Back Temperature (C)", m_shooterBack.getMotorTemperature());
+        SmartDashboard.putNumber("Shooter / Shooter Back Speed (RPM)", getShooterBackQuadratureEncoderRpm());
+        SmartDashboard.putNumber("Shooter / Shooter Front Speed (RPM)", getShooterFrontQuadratureEncoderRpm());
 
-        SmartDashboard.putNumber("Shooter Front Speed (RPM)", m_shooterFrontEncoder.getVelocity());
-        SmartDashboard.putNumber("Shooter Front Bus Voltage", m_shooterFront.getBusVoltage());
-        SmartDashboard.putNumber("Shooter Front Current", m_shooterFront.getOutputCurrent());
-        SmartDashboard.putNumber("Shooter Front Applied Output", m_shooterFront.getAppliedOutput());
-        SmartDashboard.putNumber("Shooter Front Temperature (C)", m_shooterFront.getMotorTemperature());        
+        // SmartDashboard.putNumber("Shooter / Shooter Back Speed Built-in (RPM)", m_shooterBackEncoder.getVelocity());
+        // SmartDashboard.putNumber("Shooter / Shooter Front Speed Built-in (RPM)", m_shooterFrontEncoder.getVelocity());
+
+        // SmartDashboard.putNumber("Shooter Back Speed (RPM)", m_shooterBackEncoder.getVelocity());
+        // SmartDashboard.putNumber("Shooter Back Bus Voltage", m_shooterBack.getBusVoltage());
+        // SmartDashboard.putNumber("Shooter Back Current", m_shooterBack.getOutputCurrent());
+        // SmartDashboard.putNumber("Shooter Back Applied Output", m_shooterBack.getAppliedOutput());
+        // SmartDashboard.putNumber("Shooter Back Temperature (C)", m_shooterBack.getMotorTemperature());
+
+        // SmartDashboard.putNumber("Shooter Front Speed (RPM)", m_shooterFrontEncoder.getVelocity());
+        // SmartDashboard.putNumber("Shooter Front Bus Voltage", m_shooterFront.getBusVoltage());
+        // SmartDashboard.putNumber("Shooter Front Current", m_shooterFront.getOutputCurrent());
+        // SmartDashboard.putNumber("Shooter Front Applied Output", m_shooterFront.getAppliedOutput());
+        // SmartDashboard.putNumber("Shooter Front Temperature (C)", m_shooterFront.getMotorTemperature());        
     }
 }

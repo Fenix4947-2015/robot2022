@@ -14,6 +14,7 @@ import frc.robot.commands.shooter.SpinShooter;
 import frc.robot.commands.shooter.StopShooter;
 import frc.robot.commands.winch.Pull;
 import frc.robot.controllers.Frc4947Controller;
+import frc.robot.limelight.Limelight;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Shooter;
@@ -26,6 +27,9 @@ import frc.robot.subsystems.Winch;
  * subsystems, commands, and button mappings) should be declared here.
  */
 public class RobotContainer {
+
+    // Cameras and SmartDashboard
+    private final Limelight _limelight = new Limelight();
 
     // Contollers.
     public final Frc4947Controller m_driverController = new Frc4947Controller(ControllerConstants.kDriverPort);
@@ -46,6 +50,7 @@ public class RobotContainer {
     private final CommandBase m_shiftHigh = new InstantCommand(m_driveTrain::shiftHigh);
     private final CommandBase m_shiftLow = new InstantCommand(m_driveTrain::shiftLow);
     private final CommandBase m_stopAll = new StopAll(m_driveTrain, m_intake, m_shooter);
+    private final CommandBase m_latchIntake = new InstantCommand(m_intake::latch);
     private final CommandBase m_unlatchIntake = new InstantCommand(m_intake::unlatch);
     private final CommandBase m_unlatchWinch = new InstantCommand(m_winch::unlatch);
 
@@ -86,19 +91,21 @@ public class RobotContainer {
         SmartDashboard.putData(m_intake);
         SmartDashboard.putData(m_shooter);
 
-        SmartDashboard.putData("Shift High", m_shiftHigh);
-        SmartDashboard.putData("Shift Low", m_shiftLow);        
+        SmartDashboard.putData("Commands/Shift High", m_shiftHigh);
+        SmartDashboard.putData("Commands/Shift Low", m_shiftLow);        
 
-        SmartDashboard.putData("Move Shooter Up", m_moveShooterUp);
-        SmartDashboard.putData("Move Shooter Down", m_moveShooterDown);
-        SmartDashboard.putData("Shoot", m_shoot);
-        SmartDashboard.putData("Spin Shooter", m_spinShooter);
-        SmartDashboard.putData("Stop Shooter", m_stopShooter);
+        SmartDashboard.putData("Commands/Move Shooter Up", m_moveShooterUp);
+        SmartDashboard.putData("Commands/Move Shooter Down", m_moveShooterDown);
+        SmartDashboard.putData("Commands/Shoot", m_shoot);
+        SmartDashboard.putData("Commands/Spin Shooter", m_spinShooter);
+        SmartDashboard.putData("Commands/Stop Shooter", m_stopShooter);
 
-        SmartDashboard.putData("Unlatch Intake", m_unlatchIntake);
-        SmartDashboard.putData("Unlatch Winch", m_unlatchWinch);
+        SmartDashboard.putData("Commands/Latch Intake", m_latchIntake);
+        SmartDashboard.putData("Commands/Unlatch Intake", m_unlatchIntake);
 
-        SmartDashboard.putData("Stop All", m_stopAll);
+        SmartDashboard.putData("Commands/Unlatch Winch", m_unlatchWinch);
+
+        SmartDashboard.putData("Commands/Stop All", m_stopAll);
     }
 
     public void teleopInit() {

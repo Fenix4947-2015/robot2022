@@ -64,12 +64,12 @@ public class Winch extends SubsystemBase {
 
     @Override
     public void periodic() {
-        SmartDashboard.putNumber("Winch Leader Bus Voltage", m_leader.getBusVoltage());
-        SmartDashboard.putNumber("Winch Leader Current", m_leader.getOutputCurrent());
-        SmartDashboard.putNumber("Winch Leader Applied Output", m_leader.getAppliedOutput());
-        SmartDashboard.putNumber("Winch Leader Temperature (C)", m_leader.getMotorTemperature());
+        // SmartDashboard.putNumber("Winch Leader Bus Voltage", m_leader.getBusVoltage());
+        // SmartDashboard.putNumber("Winch Leader Current", m_leader.getOutputCurrent());
+        // SmartDashboard.putNumber("Winch Leader Applied Output", m_leader.getAppliedOutput());
+        // SmartDashboard.putNumber("Winch Leader Temperature (C)", m_leader.getMotorTemperature());
 
-        SmartDashboard.putBoolean("Limit switch Closed", m_limitSwitchClosed.get());
-        SmartDashboard.putBoolean("Limit switch Open", m_limitSwitchOpen.get());
+        // SmartDashboard.putBoolean("Limit switch Closed", m_limitSwitchClosed.get());
+        // SmartDashboard.putBoolean("Limit switch Open", m_limitSwitchOpen.get());
     }
 }

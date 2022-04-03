@@ -63,8 +63,8 @@ public class DriveTrain extends SubsystemBase {
         shiftLow();
         reset();
 
-        addChild("Drive", m_drive);
-        addChild("Gyro", m_gyro);
+        //addChild("Drive", m_drive);
+        //addChild("Gyro", m_gyro);
         addChild("Shifter", m_shifter);
     }
 
@@ -101,18 +101,18 @@ public class DriveTrain extends SubsystemBase {
 
     @Override
     public void periodic() {
-        SmartDashboard.putNumber("Left Distance (m)", m_leftLeaderEncoder.getPosition());
-        SmartDashboard.putNumber("Left Speed (m/s)", m_leftLeaderEncoder.getVelocity());
-        SmartDashboard.putNumber("Left Bus Voltage", m_leftLeader.getBusVoltage());
-        SmartDashboard.putNumber("Left Current", m_leftLeader.getOutputCurrent());
-        SmartDashboard.putNumber("Left Applied Output", m_leftLeader.getAppliedOutput());
-        SmartDashboard.putNumber("Left Temperature (C)", m_leftLeader.getMotorTemperature());
+        // SmartDashboard.putNumber("Left Distance (m)", m_leftLeaderEncoder.getPosition());
+        // SmartDashboard.putNumber("Left Speed (m/s)", m_leftLeaderEncoder.getVelocity());
+        // SmartDashboard.putNumber("Left Bus Voltage", m_leftLeader.getBusVoltage());
+        // SmartDashboard.putNumber("Left Current", m_leftLeader.getOutputCurrent());
+        // SmartDashboard.putNumber("Left Applied Output", m_leftLeader.getAppliedOutput());
+        // SmartDashboard.putNumber("Left Temperature (C)", m_leftLeader.getMotorTemperature());
 
-        SmartDashboard.putNumber("Right Distance (m)", m_rightLeaderEncoder.getPosition());
-        SmartDashboard.putNumber("Right Speed (m/s)", m_rightLeaderEncoder.getVelocity());
-        SmartDashboard.putNumber("Right Bus Voltage", m_rightLeader.getBusVoltage());
-        SmartDashboard.putNumber("Right Current", m_rightLeader.getOutputCurrent());
-        SmartDashboard.putNumber("Right Applied Output", m_rightLeader.getAppliedOutput());
-        SmartDashboard.putNumber("Right Temperature (C)", m_rightLeader.getMotorTemperature());
+        // SmartDashboard.putNumber("Right Distance (m)", m_rightLeaderEncoder.getPosition());
+        // SmartDashboard.putNumber("Right Speed (m/s)", m_rightLeaderEncoder.getVelocity());
+        // SmartDashboard.putNumber("Right Bus Voltage", m_rightLeader.getBusVoltage());
+        // SmartDashboard.putNumber("Right Current", m_rightLeader.getOutputCurrent());
+        // SmartDashboard.putNumber("Right Applied Output", m_rightLeader.getAppliedOutput());
+        // SmartDashboard.putNumber("Right Temperature (C)", m_rightLeader.getMotorTemperature());
     }
 }
