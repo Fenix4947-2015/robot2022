@@ -15,6 +15,7 @@ public class Winch extends SubsystemBase {
 
     private final CANSparkMax m_leader = new CANSparkMax(WinchConstants.kLeaderDeviceId, MotorType.kBrushed);
     private final CANSparkMax m_follower = new CANSparkMax(WinchConstants.kFollowerDeviceId, MotorType.kBrushed);
+    private final CANSparkMax m_top = new CANSparkMax(WinchConstants.kTopDeviceId, MotorType.kBrushed); // ajouter par arnav samedi le 2 avril
 
     private final DigitalInput m_limitSwitchClosed = new DigitalInput(WinchConstants.kLimitSwitchClosedId);
     private final DigitalInput m_limitSwitchOpen = new DigitalInput(WinchConstants.kLimitSwitchOpenId);
@@ -24,11 +25,14 @@ public class Winch extends SubsystemBase {
     public Winch() {
         m_leader.restoreFactoryDefaults();
         m_follower.restoreFactoryDefaults();
+        m_top.restoreFactoryDefaults();
 
         m_leader.setIdleMode(IdleMode.kBrake);
         m_follower.setIdleMode(IdleMode.kBrake);
+        m_top.setIdleMode(IdleMode.kBrake);
 
         m_follower.follow(m_leader, false);
+        m_top.follow(m_leader, true);
 
         m_leader.burnFlash();
         m_follower.burnFlash();
