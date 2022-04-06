@@ -46,11 +46,11 @@ public class DriveTrain extends SubsystemBase {
 
         m_rightLeader.setInverted(true);
 
-        m_leftLeaderEncoder.setPositionConversionFactor(DriveTrainConstants.kEncoderPositionConversionFactor);
-        m_rightLeaderEncoder.setPositionConversionFactor(DriveTrainConstants.kEncoderPositionConversionFactor);
+        m_leftLeaderEncoder.setPositionConversionFactor(DriveTrainConstants.kEncoderPositionConversionFactorHigh);
+        m_rightLeaderEncoder.setPositionConversionFactor(DriveTrainConstants.kEncoderPositionConversionFactorHigh);
 
-        m_leftLeaderEncoder.setVelocityConversionFactor(DriveTrainConstants.kEncoderVelocityConversionFactor);
-        m_rightLeaderEncoder.setVelocityConversionFactor(DriveTrainConstants.kEncoderVelocityConversionFactor);
+        m_leftLeaderEncoder.setVelocityConversionFactor(DriveTrainConstants.kEncoderVelocityConversionFactorHigh);
+        m_rightLeaderEncoder.setVelocityConversionFactor(DriveTrainConstants.kEncoderVelocityConversionFactorHigh);
 
         m_spareTalon.configFactoryDefault();
         m_gyro.configFactoryDefault();
