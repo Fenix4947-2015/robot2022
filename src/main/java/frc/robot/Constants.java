@@ -38,10 +38,18 @@ public final class Constants {
         public static final double kEncoderVelocityConversionFactorLow = (Math.PI * kWheelDiameterMeters) / (kGearRatioLow * 60.0); // in meters per second
 
         public static final int kSpareTalonDeviceNumber = 9;
+
+        public static final double kTurnP = 0.8;
+        public static final double kTurnI = 0;
+        public static final double kTurnD = 0;
+        public static final double kTurnToleranceDegrees = 5;
+        public static final double kTurnRateToleranceDegreesPerSec = 10; // degrees per second
     }
 
     public static final class InstakeConstants {
         public static final int kMotorDeviceId = 36;
+
+        public static final int kLatchSolenoidChannelId = 3;
     }
 
     public static final class ShooterConstants {
@@ -59,7 +67,10 @@ public final class Constants {
     public static final class WinchConstants {
         public static final int kLeaderDeviceId = 21;
         public static final int kFollowerDeviceId = 31;
+        public static final int kTopDeviceId = 41;
         public static final int kLimitSwitchClosedId = 1;
         public static final int kLimitSwitchOpenId = 0;
+
+        public static final int kLatchSolenoidChannelId = 4;
     }     
 }

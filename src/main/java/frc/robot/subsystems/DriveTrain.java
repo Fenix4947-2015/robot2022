@@ -16,6 +16,8 @@ import frc.robot.Constants.DriveTrainConstants;
 
 public class DriveTrain extends SubsystemBase {
 
+    private static final double GO_STRAIGHT_COMP_DEFAULT = 0.23;
+
     private final CANSparkMax m_leftLeader = new CANSparkMax(DriveTrainConstants.kLeftLeaderDeviceId, MotorType.kBrushless);
     private final CANSparkMax m_leftFollower = new CANSparkMax(DriveTrainConstants.kLeftFollowerDeviceId, MotorType.kBrushless);
     private final CANSparkMax m_rightLeader = new CANSparkMax(DriveTrainConstants.kRightLeaderDeviceId, MotorType.kBrushless);
@@ -52,19 +54,41 @@ public class DriveTrain extends SubsystemBase {
         m_leftLeaderEncoder.setVelocityConversionFactor(DriveTrainConstants.kEncoderVelocityConversionFactorHigh);
         m_rightLeaderEncoder.setVelocityConversionFactor(DriveTrainConstants.kEncoderVelocityConversionFactorHigh);
 
+        m_leftLeader.burnFlash();
+        m_leftFollower.burnFlash();
+        m_rightLeader.burnFlash();
+        m_rightFollower.burnFlash();
+
         m_spareTalon.configFactoryDefault();
         m_gyro.configFactoryDefault();
 
         shiftLow();
         reset();
 
-        addChild("Drive", m_drive);
-        addChild("Gyro", m_gyro);
+        //addChild("Drive", m_drive);
+        //addChild("Gyro", m_gyro);
         addChild("Shifter", m_shifter);
+
+        SmartDashboard.putNumber("DT/goStraightComp", GO_STRAIGHT_COMP_DEFAULT);
     }
 
     public void arcadeDrive(double xSpeed, double zRotation) {
-        m_drive.arcadeDrive(xSpeed, zRotation);
+        
+        double comp = SmartDashboard.getNumber("DT/goStraightComp", GO_STRAIGHT_COMP_DEFAULT);
+        double goStraightCompensation = xSpeed * comp;
+
+        if (Math.abs(xSpeed) > 0.0) {
+            //System.out.println("goStraightComp: " + goStraightCompensation);
+        }
+        m_drive.arcadeDrive(xSpeed, zRotation + goStraightCompensation);
+    }
+
+    public void disableSafety() {
+        m_drive.setSafetyEnabled(false);
+    }
+
+    public void enableSafety() {
+        m_drive.setSafetyEnabled(true);
     }
 
     public double getHeading() {
@@ -96,18 +120,18 @@ public class DriveTrain extends SubsystemBase {
 
     @Override
     public void periodic() {
-        SmartDashboard.putNumber("Left Distance (m)", m_leftLeaderEncoder.getPosition());
-        SmartDashboard.putNumber("Left Speed (m/s)", m_leftLeaderEncoder.getVelocity());
-        SmartDashboard.putNumber("Left Bus Voltage", m_leftLeader.getBusVoltage());
-        SmartDashboard.putNumber("Left Current", m_leftLeader.getOutputCurrent());
-        SmartDashboard.putNumber("Left Applied Output", m_leftLeader.getAppliedOutput());
-        SmartDashboard.putNumber("Left Temperature (C)", m_leftLeader.getMotorTemperature());
+        SmartDashboard.putNumber("DT/Left Distance (m)", m_leftLeaderEncoder.getPosition());
+        // SmartDashboard.putNumber("Left Speed (m/s)", m_leftLeaderEncoder.getVelocity());
+        // SmartDashboard.putNumber("Left Bus Voltage", m_leftLeader.getBusVoltage());
+        // SmartDashboard.putNumber("Left Current", m_leftLeader.getOutputCurrent());
+        // SmartDashboard.putNumber("Left Applied Output", m_leftLeader.getAppliedOutput());
+        // SmartDashboard.putNumber("Left Temperature (C)", m_leftLeader.getMotorTemperature());
 
-        SmartDashboard.putNumber("Right Distance (m)", m_rightLeaderEncoder.getPosition());
-        SmartDashboard.putNumber("Right Speed (m/s)", m_rightLeaderEncoder.getVelocity());
-        SmartDashboard.putNumber("Right Bus Voltage", m_rightLeader.getBusVoltage());
-        SmartDashboard.putNumber("Right Current", m_rightLeader.getOutputCurrent());
-        SmartDashboard.putNumber("Right Applied Output", m_rightLeader.getAppliedOutput());
-        SmartDashboard.putNumber("Right Temperature (C)", m_rightLeader.getMotorTemperature());
+        SmartDashboard.putNumber("DT/Right Distance (m)", m_rightLeaderEncoder.getPosition());
+        // SmartDashboard.putNumber("Right Speed (m/s)", m_rightLeaderEncoder.getVelocity());
+        // SmartDashboard.putNumber("Right Bus Voltage", m_rightLeader.getBusVoltage());
+        // SmartDashboard.putNumber("Right Current", m_rightLeader.getOutputCurrent());
+        // SmartDashboard.putNumber("Right Applied Output", m_rightLeader.getAppliedOutput());
+        // SmartDashboard.putNumber("Right Temperature (C)", m_rightLeader.getMotorTemperature());
     }
 }
