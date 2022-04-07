@@ -7,6 +7,7 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.Solenoid;
+import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.WinchConstants;
@@ -21,6 +22,10 @@ public class Winch extends SubsystemBase {
     private final DigitalInput m_limitSwitchOpen = new DigitalInput(WinchConstants.kLimitSwitchOpenId);
 
     private final Solenoid m_latch = new Solenoid(PneumaticsModuleType.CTREPCM, WinchConstants.kLatchSolenoidChannelId);
+    //private final RelativeEncoder m_leaderEncoder = m_leader.getEncoder();
+    // private final RelativeEncoder m_followerEncoder = m_follower.getEncoder();
+
+    private final Encoder m_encoder = new Encoder(WinchConstants.kEncoderDeviceId1, WinchConstants.kEncoderDeviceId2);
 
     public Winch() {
         m_leader.restoreFactoryDefaults();
@@ -40,13 +45,13 @@ public class Winch extends SubsystemBase {
 
     public void pull(double speed) {
         if (speed > 0) {
-            if (m_limitSwitchClosed.get()) {
+            if (isClosedLimitSwitchPressed()) {
                 m_leader.set(0);
             } else {
                 m_leader.set(speed);
             }
         } else {
-            if (!m_limitSwitchOpen.get()) {
+            if (isOpenLimitSwitchPressed()) {
                 m_leader.set(0);
             } else {
                 m_leader.set(speed);
@@ -62,6 +67,22 @@ public class Winch extends SubsystemBase {
         m_latch.set(true);
     }
 
+    public boolean isClosedLimitSwitchPressed() {
+        return m_limitSwitchClosed.get();
+    }
+
+    public boolean isOpenLimitSwitchPressed() {
+        return !m_limitSwitchOpen.get();
+    }
+
+    public boolean isStopped() {
+        return m_encoder.getStopped();
+    }
+
+    public double getEncoderDistance() {
+        return m_encoder.getDistance();
+    }
+
     @Override
     public void periodic() {
         // SmartDashboard.putNumber("Winch Leader Bus Voltage", m_leader.getBusVoltage());
@@ -71,5 +92,7 @@ public class Winch extends SubsystemBase {
 
         // SmartDashboard.putBoolean("Limit switch Closed", m_limitSwitchClosed.get());
         // SmartDashboard.putBoolean("Limit switch Open", m_limitSwitchOpen.get());
+
+        SmartDashboard.putNumber("Winch/Encoder distance", getEncoderDistance());
     }
 }
