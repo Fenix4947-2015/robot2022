@@ -28,14 +28,14 @@ public final class Constants {
 
         public static final int kShifterSolenoidChannelId = 2;
 
-        private static final double kGearRatioHigh = 10.86;
-        private static final double kGearRatioLow = 6.0;
+        private static final double kGearRatioLow = 10.86;
+        private static final double kGearRatioHigh = 6.0;
         private static final double kWheelDiameterMeters = Units.inchesToMeters(6.0);
 
-        public static final double kEncoderPositionConversionFactorHigh = (Math.PI * kWheelDiameterMeters) / kGearRatioHigh;          // in meters
-        public static final double kEncoderVelocityConversionFactorHigh = (Math.PI * kWheelDiameterMeters) / (kGearRatioHigh * 60.0); // in meters per second
         public static final double kEncoderPositionConversionFactorLow = (Math.PI * kWheelDiameterMeters) / kGearRatioLow;          // in meters
         public static final double kEncoderVelocityConversionFactorLow = (Math.PI * kWheelDiameterMeters) / (kGearRatioLow * 60.0); // in meters per second
+        public static final double kEncoderPositionConversionFactorHigh = (Math.PI * kWheelDiameterMeters) / kGearRatioHigh;          // in meters
+        public static final double kEncoderVelocityConversionFactorHigh = (Math.PI * kWheelDiameterMeters) / (kGearRatioHigh * 60.0); // in meters per second
 
         public static final int kSpareTalonDeviceNumber = 9;
 
