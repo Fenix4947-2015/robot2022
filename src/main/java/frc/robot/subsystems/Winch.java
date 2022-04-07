@@ -16,13 +16,15 @@ public class Winch extends SubsystemBase {
 
     private final CANSparkMax m_leader = new CANSparkMax(WinchConstants.kLeaderDeviceId, MotorType.kBrushed);
     private final CANSparkMax m_follower = new CANSparkMax(WinchConstants.kFollowerDeviceId, MotorType.kBrushed);
-    private final CANSparkMax m_top = new CANSparkMax(WinchConstants.kTopDeviceId, MotorType.kBrushed); // ajouter par arnav samedi le 2 avril
+    private final CANSparkMax m_top = new CANSparkMax(WinchConstants.kTopDeviceId, MotorType.kBrushed); // ajouter par
+                                                                                                        // arnav samedi
+                                                                                                        // le 2 avril
 
     private final DigitalInput m_limitSwitchClosed = new DigitalInput(WinchConstants.kLimitSwitchClosedId);
     private final DigitalInput m_limitSwitchOpen = new DigitalInput(WinchConstants.kLimitSwitchOpenId);
 
     private final Solenoid m_latch = new Solenoid(PneumaticsModuleType.CTREPCM, WinchConstants.kLatchSolenoidChannelId);
-    //private final RelativeEncoder m_leaderEncoder = m_leader.getEncoder();
+    // private final RelativeEncoder m_leaderEncoder = m_leader.getEncoder();
     // private final RelativeEncoder m_followerEncoder = m_follower.getEncoder();
 
     private final Encoder m_encoder = new Encoder(WinchConstants.kEncoderDeviceId1, WinchConstants.kEncoderDeviceId2);
@@ -44,19 +46,29 @@ public class Winch extends SubsystemBase {
     }
 
     public void pull(double speed) {
-        if (speed > 0) {
-            if (isClosedLimitSwitchPressed()) {
-                m_leader.set(0);
-            } else {
-                m_leader.set(speed);
-            }
+        final boolean disableSafety = false;
+
+        final double realSpeed;
+        if (disableSafety) {
+            realSpeed = speed;
         } else {
-            if (isOpenLimitSwitchPressed()) {
-                m_leader.set(0);
+            if (speed > 0) {
+                if (isClosedLimitSwitchPressed()) {
+                    realSpeed = 0.0;
+                } else {
+                    realSpeed = speed;
+                }
             } else {
-                m_leader.set(speed);
+                if (isOpenLimitSwitchPressed()) {
+                    realSpeed = 0.0;
+                } else {
+                    realSpeed = speed;
+                }
             }
         }
+
+        SmartDashboard.putNumber("Winch/Pull speed", realSpeed);
+        m_leader.set(realSpeed);
     }
 
     public void stop() {
@@ -85,13 +97,17 @@ public class Winch extends SubsystemBase {
 
     @Override
     public void periodic() {
-        // SmartDashboard.putNumber("Winch Leader Bus Voltage", m_leader.getBusVoltage());
-        // SmartDashboard.putNumber("Winch Leader Current", m_leader.getOutputCurrent());
-        // SmartDashboard.putNumber("Winch Leader Applied Output", m_leader.getAppliedOutput());
-        // SmartDashboard.putNumber("Winch Leader Temperature (C)", m_leader.getMotorTemperature());
+        // SmartDashboard.putNumber("Winch Leader Bus Voltage",
+        // m_leader.getBusVoltage());
+        // SmartDashboard.putNumber("Winch Leader Current",
+        // m_leader.getOutputCurrent());
+        // SmartDashboard.putNumber("Winch Leader Applied Output",
+        // m_leader.getAppliedOutput());
+        // SmartDashboard.putNumber("Winch Leader Temperature (C)",
+        // m_leader.getMotorTemperature());
 
-        // SmartDashboard.putBoolean("Limit switch Closed", m_limitSwitchClosed.get());
-        // SmartDashboard.putBoolean("Limit switch Open", m_limitSwitchOpen.get());
+        SmartDashboard.putBoolean("Winch/Limit switch Closed", isClosedLimitSwitchPressed());
+        SmartDashboard.putBoolean("Winch/Limit switch Open", isOpenLimitSwitchPressed());
 
         SmartDashboard.putNumber("Winch/Encoder distance", getEncoderDistance());
     }

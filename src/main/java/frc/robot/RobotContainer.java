@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.Constants.ControllerConstants;
+import frc.robot.Constants.WinchConstants;
 import frc.robot.commands.StopAll;
 import frc.robot.commands.autonomous.ExitTarmacPID;
 import frc.robot.commands.autonomous.ExitTarmacTimer;
@@ -60,14 +61,14 @@ public class RobotContainer {
     private final CommandBase m_latchIntake = new InstantCommand(m_intake::latch);
     private final CommandBase m_unlatchIntake = new InstantCommand(m_intake::unlatch);
     private final CommandBase m_unlatchWinch = new InstantCommand(() -> {
-        if (Timer.getMatchTime() < 30) {
+        if (!WinchConstants.kUnlatchWinchOnlyAtEndOfMatch || Timer.getMatchTime() < 30) {
             m_winch.unlatch();
         }
     });
 
     // Default commands.
     private final DriveArcade m_driveArcade = new DriveArcade(m_driverController, m_driveTrain);
-    private final CommandBase m_pull = new Pull(m_helperController, m_winch);
+    private final Pull m_pull = new Pull(m_helperController, m_winch);
     private final CommandBase m_roll = new Roll(m_helperController, m_intake);
 
     // Autonomous commands.
@@ -151,12 +152,14 @@ public class RobotContainer {
         m_driveTrain.shiftLow();
         m_intake.unlatch();
         m_driveTrain.enableSafety();
+        m_pull.reset();
         m_moveShooterUp.schedule();
     }
 
     public void autonomousInit() {
         m_driveTrain.shiftLow();
         m_driveTrain.disableSafety();
+        m_pull.reset();
         //m_moveShooterUp.schedule();
     }
 

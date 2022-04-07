@@ -74,5 +74,7 @@ public final class Constants {
         public static final int kLatchSolenoidChannelId = 4;
         public static final int kEncoderDeviceId1 = 6;
         public static final int kEncoderDeviceId2 = 7;
+
+        public static final boolean kUnlatchWinchOnlyAtEndOfMatch = false;
     }     
 }
