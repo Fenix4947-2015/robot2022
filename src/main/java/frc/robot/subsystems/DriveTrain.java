@@ -7,6 +7,7 @@ import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.revrobotics.RelativeEncoder;
 
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
@@ -51,9 +52,6 @@ public class DriveTrain extends SubsystemBase {
         m_leftLeaderEncoder.setPositionConversionFactor(DriveTrainConstants.kEncoderPositionConversionFactorLow);
         m_rightLeaderEncoder.setPositionConversionFactor(DriveTrainConstants.kEncoderPositionConversionFactorLow);
 
-        m_leftLeaderEncoder.setVelocityConversionFactor(DriveTrainConstants.kEncoderVelocityConversionFactorLow);
-        m_rightLeaderEncoder.setVelocityConversionFactor(DriveTrainConstants.kEncoderVelocityConversionFactorLow);
-
         m_leftLeader.burnFlash();
         m_leftFollower.burnFlash();
         m_rightLeader.burnFlash();
@@ -61,6 +59,8 @@ public class DriveTrain extends SubsystemBase {
 
         m_spareTalon.configFactoryDefault();
         m_gyro.configFactoryDefault();
+
+        m_drive.setMaxOutput(0.8);
 
         shiftLow();
         reset();
@@ -74,13 +74,15 @@ public class DriveTrain extends SubsystemBase {
 
     public void arcadeDrive(double xSpeed, double zRotation) {
         
-        double comp = SmartDashboard.getNumber("DT/goStraightComp", GO_STRAIGHT_COMP_DEFAULT);
-        double goStraightCompensation = xSpeed * comp;
+        final double clampedSpeed = MathUtil.clamp(xSpeed, -1.0, 1.0);
 
-        if (Math.abs(xSpeed) > 0.0) {
+        double comp = SmartDashboard.getNumber("DT/goStraightComp", GO_STRAIGHT_COMP_DEFAULT);
+        double goStraightCompensation = clampedSpeed * comp;
+
+        if (Math.abs(clampedSpeed) > 0.0) {
             //System.out.println("goStraightComp: " + goStraightCompensation);
         }
-        m_drive.arcadeDrive(xSpeed, zRotation + goStraightCompensation);
+        m_drive.arcadeDrive(clampedSpeed, zRotation + goStraightCompensation);
     }
 
     public void disableSafety() {
@@ -133,5 +135,7 @@ public class DriveTrain extends SubsystemBase {
         // SmartDashboard.putNumber("Right Current", m_rightLeader.getOutputCurrent());
         // SmartDashboard.putNumber("Right Applied Output", m_rightLeader.getAppliedOutput());
         // SmartDashboard.putNumber("Right Temperature (C)", m_rightLeader.getMotorTemperature());
+
+        SmartDashboard.putNumber("DT/Heading", getHeading());
     }
 }

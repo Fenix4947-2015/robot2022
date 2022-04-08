@@ -1,5 +1,6 @@
 package frc.robot;
 
+import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.util.Units;
 
 /**
@@ -39,11 +40,20 @@ public final class Constants {
 
         public static final int kSpareTalonDeviceNumber = 9;
 
-        public static final double kTurnP = 0.8;
-        public static final double kTurnI = 0;
+        public static final double kTurnP = 16.0;
+        public static final double kTurnI = 0.5;
         public static final double kTurnD = 0;
         public static final double kTurnToleranceDegrees = 5;
         public static final double kTurnRateToleranceDegreesPerSec = 10; // degrees per second
+
+        // Constants obtained from SysId
+        public static final double ksLow = 0.14344;
+        public static final double kvLow = 1.4602;
+        public static final double kaLow = 0.77896;
+        public static final double kpLow = 50.149;
+        public static final double kdLow = 8.0681;
+
+        public static final SimpleMotorFeedforward m_feedFwdLow = new SimpleMotorFeedforward(ksLow, kvLow, kaLow);
     }
 
     public static final class InstakeConstants {
@@ -58,7 +68,8 @@ public final class Constants {
 
         public static final int kCylindersSolenoidChannelId = 1;
 
-        public static final double kSpinSpeed = 0.5;
+        public static final double kSpinSpeedNear = 0.5;
+        public static final double kSpinSpeedFar = 0.62;
         public static final double kBeforeSpinDelaySec = 0.5;
         public static final double kSpinDelaySec = 1.0;
         public static final double kAfterShotDelaySec = 1.0;
@@ -75,6 +86,6 @@ public final class Constants {
         public static final int kEncoderDeviceId1 = 6;
         public static final int kEncoderDeviceId2 = 7;
 
-        public static final boolean kUnlatchWinchOnlyAtEndOfMatch = false;
+        public static final boolean kUnlatchWinchOnlyAtEndOfMatch = true;
     }     
 }

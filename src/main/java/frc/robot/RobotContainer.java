@@ -14,6 +14,7 @@ import frc.robot.Constants.WinchConstants;
 import frc.robot.commands.StopAll;
 import frc.robot.commands.autonomous.ExitTarmacPID;
 import frc.robot.commands.autonomous.ExitTarmacTimer;
+import frc.robot.commands.autonomous.Shoot1Ball;
 import frc.robot.commands.autonomous.Shoot2Balls;
 import frc.robot.commands.drivetrain.DriveArcade;
 import frc.robot.commands.intake.Roll;
@@ -52,9 +53,9 @@ public class RobotContainer {
     // Commands.
     private final CommandBase m_moveShooterUp = new InstantCommand(m_shooter::moveUp, m_shooter);
     private final CommandBase m_moveShooterDown = new InstantCommand(m_shooter::moveDown, m_shooter);
-    private final CommandBase m_spinShooter = new SpinShooter(m_shooter);
+    private final CommandBase m_spinShooter = new SpinShooter(m_shooter, false);
     private final CommandBase m_stopShooter = new StopShooter(m_shooter);
-    private final CommandBase m_shoot = new Shoot(m_shooter);
+    private final CommandBase m_shoot = new Shoot(m_shooter, false);
     private final CommandBase m_shiftHigh = new InstantCommand(m_driveTrain::shiftHigh);
     private final CommandBase m_shiftLow = new InstantCommand(m_driveTrain::shiftLow);
     private final CommandBase m_stopAll = new StopAll(m_driveTrain, m_intake, m_shooter);
@@ -75,6 +76,7 @@ public class RobotContainer {
     private final CommandBase m_autoNone = new PrintCommand("No autonomous command selected");
     private final CommandBase m_autoExitTarmacTimer = new ExitTarmacTimer(m_driveTrain);
     private final CommandBase m_autoExitTarmacPID = new ExitTarmacPID(m_driveTrain);
+    private final CommandBase m_autoShoot1Ball = new Shoot1Ball(m_shooter, m_intake, m_driveTrain);
     private final CommandBase m_autoShoot2Balls = new Shoot2Balls(m_shooter, m_intake, m_driveTrain);
 
     private final SendableChooser<Integer> m_autonomousDelayChooser = new SendableChooser<>();
@@ -117,7 +119,7 @@ public class RobotContainer {
         m_autonomousCommandChooser.setDefaultOption("None", m_autoNone);
         m_autonomousCommandChooser.addOption("Exit Tarmac (PID)", m_autoExitTarmacPID);
         m_autonomousCommandChooser.addOption("Exit Tarmac (timer)", m_autoExitTarmacTimer);
-        //m_autonomousCommandChooser.addOption("Shoot 1 Ball", m_autoShoot1Ball);
+        m_autonomousCommandChooser.addOption("Shoot 1 Ball", m_autoShoot1Ball);
         m_autonomousCommandChooser.addOption("Shoot 2 Balls", m_autoShoot2Balls);
 
         SmartDashboard.putData("Autonomous Delay", m_autonomousDelayChooser);

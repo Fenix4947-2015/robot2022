@@ -51,6 +51,50 @@
               "_source0": "network_table:///LiveWindow/DriveTrain/Drive/Right Motor Speed",
               "_title": "/LiveWindow/DriveTrain/Drive/Right Motor Speed"
             }
+          },
+          "5,0": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "ComboBox Chooser",
+              "_source0": "network_table:///SmartDashboard/Autonomous Command",
+              "_title": "SmartDashboard/Autonomous Command"
+            }
+          },
+          "7,0": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "ComboBox Chooser",
+              "_source0": "network_table:///SmartDashboard/Autonomous Delay",
+              "_title": "SmartDashboard/Autonomous Delay"
+            }
+          },
+          "3,1": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Winch/Encoder distance",
+              "_title": "SmartDashboard/Winch/Encoder distance"
+            }
+          },
+          "3,2": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Shooter/spin speed",
+              "_title": "SmartDashboard/Shooter/spin speed"
+            }
           }
         }
       }
@@ -369,9 +413,9 @@
     }
   ],
   "windowGeometry": {
-    "x": -4.800000190734863,
+    "x": -6.400000095367432,
     "y": 0.800000011920929,
     "width": 1537.5999755859375,
-    "height": 724.0
+    "height": 624.0
   }
 }

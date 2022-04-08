@@ -8,11 +8,11 @@ import frc.robot.subsystems.Shooter;
 
 public class Shoot extends SequentialCommandGroup {
 
-    public Shoot(Shooter shooter) {
+    public Shoot(Shooter shooter, boolean far) {
         addCommands(
                 new InstantCommand(shooter::moveUp, shooter),
                 new WaitCommand(ShooterConstants.kBeforeSpinDelaySec),
-                new SpinShooter(shooter),
+                new SpinShooter(shooter, far),
                 new WaitCommand(ShooterConstants.kSpinDelaySec),
                 new InstantCommand(shooter::moveDown, shooter),
                 new WaitCommand(ShooterConstants.kAfterShotDelaySec),
