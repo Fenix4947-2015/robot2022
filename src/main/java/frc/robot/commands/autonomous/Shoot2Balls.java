@@ -12,15 +12,15 @@ import frc.robot.subsystems.Shooter;
 
 public class Shoot2Balls extends SequentialCommandGroup {
 
-    public Shoot2Balls(Shooter shooter, Intake intake, DriveTrain driveTrain, double angle, double distance) {
+    public Shoot2Balls(Shooter shooter, Intake intake, DriveTrain driveTrain, double firstAngle, double secondAngle, double distance) {
         addCommands(
                 new InstantCommand(() -> intake.unlatch(), intake),
                 new WaitCommand(1.0),
                 new Shoot(shooter, false),                                 // Shoot 1st ball.
-                new TurnAngle(angle, driveTrain).withTimeout(4),                     // Turn around toward 2nd ball.
+                new TurnAngle(firstAngle, driveTrain).withTimeout(4),                     // Turn around toward 2nd ball.
                 new InstantCommand(() -> intake.roll(1.0), intake), // Start the intake.
                 new DriveStraight(distance, driveTrain).withTimeout(3),  // Drive toward 2nd ball until pickup.
-                new TurnAngle(-160.0, driveTrain).withTimeout(3),                    // Turn around toward hub.
+                new TurnAngle(secondAngle, driveTrain).withTimeout(3),                    // Turn around toward hub.
                 new InstantCommand(intake::stop, intake),           // Stop the intake.
                 //new DriveStraight(2.5, driveTrain).withTimeout(3),                 // Drive toward hub.
                 new DriveStraight(0.3, driveTrain).withTimeout(2),  // Drive toward 2nd ball until pickup.
