@@ -78,7 +78,8 @@ public class RobotContainer {
     private final CommandBase m_autoExitTarmacTimer = new ExitTarmacTimer(m_driveTrain);
     private final CommandBase m_autoExitTarmacPID = new ExitTarmacPID(m_driveTrain);
     private final CommandBase m_autoShoot1Ball = new Shoot1Ball(m_shooter, m_intake, m_driveTrain);
-    private final CommandBase m_autoShoot2Balls160 = new Shoot2Balls(m_shooter, m_intake, m_driveTrain, 155);
+    private final CommandBase m_autoShoot2Balls155 = new Shoot2Balls(m_shooter, m_intake, m_driveTrain, 155);
+    private final CommandBase m_autoShoot2Balls180 = new Shoot2Balls(m_shooter, m_intake, m_driveTrain, 180);
 
     private final SendableChooser<Integer> m_autonomousDelayChooser = new SendableChooser<>();
     private final SendableChooser<Command> m_autonomousCommandChooser = new SendableChooser<>();  
@@ -122,7 +123,8 @@ public class RobotContainer {
         m_autonomousCommandChooser.addOption("Exit Tarmac (PID)", m_autoExitTarmacPID);
         //m_autonomousCommandChooser.addOption("Exit Tarmac (timer)", m_autoExitTarmacTimer);
         m_autonomousCommandChooser.addOption("Shoot 1 Ball", m_autoShoot1Ball);
-        m_autonomousCommandChooser.addOption("Shoot 2 Balls 160deg", m_autoShoot2Balls160);
+        m_autonomousCommandChooser.addOption("Shoot 2 Balls 155deg", m_autoShoot2Balls155);
+        m_autonomousCommandChooser.addOption("Shoot 2 Balls 180deg", m_autoShoot2Balls180);
 
         SmartDashboard.putData("Autonomous Delay", m_autonomousDelayChooser);
         SmartDashboard.putData("Autonomous Command", m_autonomousCommandChooser);

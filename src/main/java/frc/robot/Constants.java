@@ -80,6 +80,7 @@ public final class Constants {
         public static final int kLeaderDeviceId = 21;
         public static final int kFollowerDeviceId = 31;
         public static final int kTopDeviceId = 41;
+        public static final int kTop2DeviceId = 29;
         public static final int kLimitSwitchClosedId = 1;
         public static final int kLimitSwitchOpenId = 0;
 
