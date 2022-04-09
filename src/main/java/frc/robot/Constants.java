@@ -40,8 +40,8 @@ public final class Constants {
 
         public static final int kSpareTalonDeviceNumber = 9;
 
-        public static final double kTurnP = 16.0;
-        public static final double kTurnI = 0.5;
+        public static final double kTurnP = 10.0;
+        public static final double kTurnI = 8.0;
         public static final double kTurnD = 0;
         public static final double kTurnToleranceDegrees = 5;
         public static final double kTurnRateToleranceDegreesPerSec = 10; // degrees per second
@@ -69,9 +69,10 @@ public final class Constants {
         public static final int kCylindersSolenoidChannelId = 1;
 
         public static final double kSpinSpeedNear = 0.5;
-        public static final double kSpinSpeedFar = 0.62;
+        public static final double kSpinSpeedFar = 0.75;
         public static final double kBeforeSpinDelaySec = 0.5;
         public static final double kSpinDelaySec = 1.0;
+        public static final double kFarSpinDelaySec = 1.5;
         public static final double kAfterShotDelaySec = 1.0;
     }   
 

@@ -65,6 +65,10 @@ public class Shooter extends SubsystemBase {
         m_shooterFront.set(-speed);
     }
 
+    public void spinFrontSlow() {
+        m_shooterFront.set(-0.06);
+    }
+
     public void stop() {
         m_shooterBack.set(0.0);
         m_shooterFront.set(0.0);

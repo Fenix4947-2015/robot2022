@@ -13,7 +13,7 @@ public class Shoot extends SequentialCommandGroup {
                 new InstantCommand(shooter::moveUp, shooter),
                 new WaitCommand(ShooterConstants.kBeforeSpinDelaySec),
                 new SpinShooter(shooter, far),
-                new WaitCommand(ShooterConstants.kSpinDelaySec),
+                new WaitCommand(far ? ShooterConstants.kSpinDelaySec : ShooterConstants.kFarSpinDelaySec),
                 new InstantCommand(shooter::moveDown, shooter),
                 new WaitCommand(ShooterConstants.kAfterShotDelaySec),
                 new StopShooter(shooter),

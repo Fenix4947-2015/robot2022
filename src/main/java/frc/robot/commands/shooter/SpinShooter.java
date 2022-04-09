@@ -22,7 +22,7 @@ public class SpinShooter extends InstantCommand {
 
     @Override
     public void execute() {
-        final double speed = m_far ? SmartDashboard.getNumber("Shooter/speed near", ShooterConstants.kSpinSpeedNear)
+        final double speed = m_far ? SmartDashboard.getNumber("Shooter/speed far", ShooterConstants.kSpinSpeedFar)
                 : SmartDashboard.getNumber("Shooter/speed near", ShooterConstants.kSpinSpeedNear);
         m_shooter.spin(speed);
     }
