@@ -65,6 +65,7 @@ public class RobotContainer {
     private final CommandBase m_unlatchWinch = new InstantCommand(() -> {
         if (!WinchConstants.kUnlatchWinchOnlyAtEndOfMatch || Timer.getMatchTime() < 30) {
             m_winch.unlatch();
+            m_shooter.moveDown();
         }
     });
 
@@ -78,8 +79,8 @@ public class RobotContainer {
     private final CommandBase m_autoExitTarmacTimer = new ExitTarmacTimer(m_driveTrain);
     private final CommandBase m_autoExitTarmacPID = new ExitTarmacPID(m_driveTrain);
     private final CommandBase m_autoShoot1Ball = new Shoot1Ball(m_shooter, m_intake, m_driveTrain);
-    private final CommandBase m_autoShoot2Balls155 = new Shoot2Balls(m_shooter, m_intake, m_driveTrain, 155);
-    private final CommandBase m_autoShoot2Balls180 = new Shoot2Balls(m_shooter, m_intake, m_driveTrain, 180);
+    private final CommandBase m_autoShoot2Balls155 = new Shoot2Balls(m_shooter, m_intake, m_driveTrain, 155, 1.5);
+    private final CommandBase m_autoShoot2Balls180 = new Shoot2Balls(m_shooter, m_intake, m_driveTrain, 180, 2.0);
 
     private final SendableChooser<Integer> m_autonomousDelayChooser = new SendableChooser<>();
     private final SendableChooser<Command> m_autonomousCommandChooser = new SendableChooser<>();  
