@@ -17,7 +17,7 @@ public class Winch extends SubsystemBase {
     private final CANSparkMax m_leader = new CANSparkMax(WinchConstants.kLeaderDeviceId, MotorType.kBrushed);
     private final CANSparkMax m_follower = new CANSparkMax(WinchConstants.kFollowerDeviceId, MotorType.kBrushed);
     private final CANSparkMax m_top = new CANSparkMax(WinchConstants.kTopDeviceId, MotorType.kBrushed); // ajouter par
-    // private final CANSparkMax m_top2 = new CANSparkMax(WinchConstants.kTop2DeviceId, MotorType.kBrushed); // ajouter par
+    private final CANSparkMax m_top2 = new CANSparkMax(WinchConstants.kTop2DeviceId, MotorType.kBrushed); // ajouter par
                                                                                                       // arnav samedi
                                                                                                         // le 2 avril
 
@@ -34,19 +34,19 @@ public class Winch extends SubsystemBase {
         m_leader.restoreFactoryDefaults();
         m_follower.restoreFactoryDefaults();
         m_top.restoreFactoryDefaults();
-        // m_top2.restoreFactoryDefaults();
+        m_top2.restoreFactoryDefaults();
 
         m_leader.setIdleMode(IdleMode.kBrake);
         m_follower.setIdleMode(IdleMode.kBrake);
         m_top.setIdleMode(IdleMode.kBrake);
-        // m_top2.setIdleMode(IdleMode.kBrake);
+        m_top2.setIdleMode(IdleMode.kBrake);
 
         m_follower.follow(m_leader, false);
         m_top.follow(m_leader, true);
-       // m_top2.follow(m_leader, true);
+        m_top2.follow(m_leader, true);
 
         m_top.burnFlash();
-       // m_top2.burnFlash();
+        m_top2.burnFlash();
         m_leader.burnFlash();
         m_follower.burnFlash();
     }

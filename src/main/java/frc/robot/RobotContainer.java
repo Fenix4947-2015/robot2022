@@ -63,7 +63,8 @@ public class RobotContainer {
     private final CommandBase m_latchIntake = new InstantCommand(m_intake::latch);
     private final CommandBase m_unlatchIntake = new InstantCommand(m_intake::unlatch);
     private final CommandBase m_unlatchWinch = new InstantCommand(() -> {
-        if (!WinchConstants.kUnlatchWinchOnlyAtEndOfMatch || Timer.getMatchTime() < 30) {
+        boolean overrideEndmatch = SmartDashboard.getBoolean("Winch/Override 30 sec endmatch", false);
+        if (!WinchConstants.kUnlatchWinchOnlyAtEndOfMatch || overrideEndmatch || Timer.getMatchTime() < 45) {
             m_winch.unlatch();
             m_shooter.moveDown();
         }
@@ -80,7 +81,7 @@ public class RobotContainer {
     private final CommandBase m_autoExitTarmacPID = new ExitTarmacPID(m_driveTrain);
     private final CommandBase m_autoShoot1Ball = new Shoot1Ball(m_shooter, m_intake, m_driveTrain);
     private final CommandBase m_autoShoot2Balls155 = new Shoot2Balls(m_shooter, m_intake, m_driveTrain, 155.0, -165.0, 1.35);
-    private final CommandBase m_autoShoot2Balls180 = new Shoot2Balls(m_shooter, m_intake, m_driveTrain, 180.0, -180.0, 2.0);
+    private final CommandBase m_autoShoot2Balls180 = new Shoot2Balls(m_shooter, m_intake, m_driveTrain, 180.0, -165.0, 2.0);
 
     private final SendableChooser<Integer> m_autonomousDelayChooser = new SendableChooser<>();
     private final SendableChooser<Command> m_autonomousCommandChooser = new SendableChooser<>();  
@@ -153,6 +154,8 @@ public class RobotContainer {
         SmartDashboard.putData("Commands/Unlatch Winch", m_unlatchWinch);
 
         SmartDashboard.putData("Commands/Stop All", m_stopAll);
+
+        SmartDashboard.putBoolean("Winch/Override 30 sec endmatch", false);
     }
 
     public void teleopInit() {
